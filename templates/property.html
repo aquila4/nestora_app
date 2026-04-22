@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ property.title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+        }
+
+        body {
+            margin: 0;
+            background: #fff;
+            color: #222;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .gallery {
+            position: relative;
+            width: 100%;
+            border-radius: 18px;
+            overflow: hidden;
+        }
+
+        .image {
+            width: 100%;
+            height: 480px;
+            object-fit: cover;
+            transition: opacity 0.25s ease;
+        }
+
+        .nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.9);
+            border: none;
+            padding: 12px 14px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .left { left: 10px; }
+        .right { right: 10px; }
+
+        .dots {
+            position: absolute;
+            bottom: 12px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 7px;
+            height: 7px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+        }
+
+        h1 { margin: 0; font-size: 26px; }
+
+        .location { color: #666; margin-top: 5px; }
+
+        .price {
+            font-size: 22px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .desc {
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .featured { background: #fff3cd; color: #b8860b; }
+        .approved { background: #dcfce7; color: #166534; }
+        .pending { background: #fef3c7; color: #92400e; }
+
+        .agent-card {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            position: sticky;
+            top: 20px;
+        }
+
+        .agent {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .agent img {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .btn {
+            display: block;
+            text-align: center;
+            padding: 12px;
+            border-radius: 12px;
+            text-decoration: none;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .primary { background: #ff385c; color: white; }
+        .whatsapp { background: #10b981; color: white; }
+        .secondary { background: #111827; color: white; }
+
+        @media (max-width: 900px) {
+            .grid { grid-template-columns: 1fr; }
+            .agent-card { position: relative; }
+        }
+
+        /* MAIN WRAPPER */
+.main-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 18px;
+}
+
+/* SMOOTH ANIMATION */
+.image {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    transition: transform 0.4s ease, opacity 0.3s ease;
+}
+
+/* THUMBNAILS */
+.thumbs {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+}
+
+.thumb {
+    width: 70px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: 0.2s;
+    flex-shrink: 0;
+}
+
+.thumb:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.thumb.active {
+    opacity: 1;
+    border: 2px solid #ff385c;
+}
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- ================= GALLERY ================= -->
+<div class="gallery">
+
+    {% set images = property.images if property.images else [] %}
+
+    {% if images|length > 0 %}
+
+    <div class="main-wrapper">
+        <img id="mainImage" src="{{ images[0] }}" class="image">
+    </div>
+
+    <button class="nav left" onclick="prevImage()">‹</button>
+    <button class="nav right" onclick="nextImage()">›</button>
+
+    <div class="thumbs">
+        {% for img in images %}
+        <img src="{{ img }}"
+             class="thumb {% if loop.index0 == 0 %}active{% endif %}"
+             onclick="setImage({{ loop.index0 }})">
+        {% endfor %}
+    </div>
+
+    {% else %}
+    <img src="{{ url_for('static', filename='uploads/default.jpg') }}" class="image">
+    {% endif %}
+
+</div>
+
+<!-- ================= CONTENT ================= -->
+<div class="grid">
+
+    <!-- LEFT -->
+    <div class="card">
+
+        <h1>{{ property.title }}</h1>
+
+        <div class="location">📍 {{ property.location }}</div>
+
+        <div class="price">₦{{ property.price }}</div>
+
+        {% if property.featured %}
+            <span class="badge featured">⭐ Featured</span>
+        {% endif %}
+
+        {% if property.approved %}
+            <span class="badge approved">🟢 Approved</span>
+        {% else %}
+            <span class="badge pending">⏳ Pending</span>
+        {% endif %}
+
+        <hr style="margin:20px 0; border:1px solid #eee;">
+
+        <h3>Description</h3>
+        <p class="desc">
+            {{ property.description or "No description provided." }}
+        </p>
+
+    </div>
+
+    <!-- RIGHT (AGENT) -->
+    <div class="agent-card">
+
+        <div class="agent">
+
+            <img
+            src="{% if property.user.profile_image and property.user.profile_image.startswith('http') %}
+                    {{ property.user.profile_image }}
+                 {% elif property.user.profile_image %}
+                    {{ url_for('static', filename='avatars/' + property.user.profile_image) }}
+                 {% else %}
+                    {{ url_for('static', filename='uploads/default-user.jpg') }}
+                 {% endif %}"
+            >
+
+            <div>
+                <strong>
+                    {{ property.user.name }}
+                    {% if property.user.verification_status == "verified" %} ✔ {% endif %}
+                </strong>
+                <div style="font-size:13px;color:gray;">Agent</div>
+            </div>
+
+        </div>
+
+        <hr style="margin:15px 0; border:1px solid #eee;">
+
+        <p>📞 {{ property.user.phone }}</p>
+        <p>✉️ {{ property.user.email }}</p>
+
+        <a href="/agent/{{ property.user.id }}" class="btn secondary">
+            View Profile
+        </a>
+
+        <a href="https://wa.me/{{ property.user.phone }}" class="btn whatsapp">
+            WhatsApp
+        </a>
+
+        <a href="/chat/{{ property.id }}/{{ property.user.id }}" class="btn primary">
+            Chat Agent
+        </a>
+
+    </div>
+
+</div>
+
+</div>
+
+<!-- ================= JS ================= -->
+<script>
+let images = {{ property.images | tojson if property.images else '[]' }};
+let index = 0;
+
+const img = document.getElementById("mainImage");
+
+function updateImage() {
+    if (!images.length) return;
+
+    img.style.opacity = 0;
+
+    setTimeout(() => {
+        img.src = images[index];
+        img.style.opacity = 1;
+    }, 120);
+
+    document.querySelectorAll(".thumb").forEach((t, i) => {
+        t.classList.toggle("active", i === index);
+    });
+}
+
+function nextImage() {
+    index = (index + 1) % images.length;
+    updateImage();
+}
+
+function prevImage() {
+    index = (index - 1 + images.length) % images.length;
+    updateImage();
+}
+
+function setImage(i) {
+    index = i;
+    updateImage();
+}
+
+/* Swipe */
+let startX = 0;
+
+if (img) {
+    img.addEventListener("touchstart", e => {
+        startX = e.touches[0].clientX;
+    });
+
+    img.addEventListener("touchend", e => {
+        let endX = e.changedTouches[0].clientX;
+
+        if (startX - endX > 50) nextImage();
+        if (endX - startX > 50) prevImage();
+    });
+}
+</script>
+</body>
+</html>

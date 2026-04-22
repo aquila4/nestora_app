@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Property - Nestora</title>
+
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+            background: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        p.subtitle {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 14px;
+            margin-top: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus, textarea:focus {
+            border-color: black;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: black;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #222;
+        }
+
+        .progress {
+            height: 6px;
+            background: #eee;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 25%;
+            height: 100%;
+            background: black;
+        }
+
+        .hint {
+            font-size: 13px;
+            color: #888;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="progress">
+        <div class="progress-bar"></div>
+    </div>
+
+    <h2>Tell us about your place</h2>
+    <p class="subtitle">Start by giving your property a name and location</p>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        <input type="text" name="title" placeholder="e.g. Luxury 2 Bedroom Apartment" required>
+        <div class="hint">Make it attractive — this is your first impression</div>
+
+        <input type="text" name="location" placeholder="e.g. Lekki, Lagos" required>
+
+        <input type="number" name="price" placeholder="Price (₦ per month)" required>
+
+        <textarea name="description" placeholder="Describe your property..."></textarea>
+
+        <input type="file" name="image" required>
+
+        <button type="submit">Continue →</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

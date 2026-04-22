@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard - Nestora</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            margin: 0;
+        }
+
+        .header {
+            background: black;
+            color: white;
+            padding: 15px;
+        }
+
+        .container {
+            width: 90%;
+            margin: auto;
+        }
+
+        .stats {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            flex: 1;
+            min-width: 200px;
+            background: black;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .box {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn {
+            padding: 6px 10px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            margin-right: 5px;
+            display: inline-block;
+            font-size: 14px;
+        }
+
+        .approve { background: green; }
+        .feature { background: #ff9800; }
+        .delete { background: red; }
+
+        .badge {
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 12px;
+            color: white;
+        }
+
+        .approved { background: green; }
+        .pending { background: orange; }
+
+        h2 {
+            margin-top: 25px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+
+        <h2>🧑‍💼 Nestora Admin Dashboard</h2>
+
+        <div>
+            <a href="/" style="color:white; margin-right:15px; text-decoration:none;">
+                🏠 Home
+            </a>
+
+            <a href="/logout" style="color:white; text-decoration:none;">
+                🚪 Logout
+            </a>
+        </div>
+
+    </div>
+</div>
+<div class="container">
+
+<!-- ================= STATS ================= -->
+<div class="stats">
+    <div class="stat">
+        <h2>{{ total }}</h2>
+        <p>Total Properties</p>
+    </div>
+
+    <div class="stat">
+        <h2>{{ featured }}</h2>
+        <p>Featured Properties</p>
+    </div>
+</div>
+
+<!-- ================= LISTINGS ================= -->
+<h2>🏠 All Listings</h2>
+
+{% for property in properties %}
+<div class="box">
+
+    <h3>{{ property.title }}</h3>
+    <p>₦{{ property.price }} | {{ property.location }}</p>
+
+    <!-- STATUS -->
+    {% if property.approved %}
+        <span class="badge approved">Approved</span>
+    {% else %}
+        <span class="badge pending">Pending</span>
+    {% endif %}
+
+    {% if property.featured %}
+        <span class="badge approved">Featured</span>
+    {% endif %}
+
+    <br><br>
+
+    <!-- ACTION BUTTONS -->
+    {% if not property.approved %}
+        <a class="btn approve" href="/admin/approve/{{ property.id }}">✅ Approve</a>
+    {% else %}
+        <a class="btn delete" href="/admin/reject/{{ property.id }}">❌ Reject</a>
+        <a class="btn feature" href="/admin/feature/{{ property.id }}">⭐ Feature</a>
+    {% endif %}
+
+    <a class="btn delete" href="/admin/delete/{{ property.id }}">🗑 Delete</a>
+
+</div>
+{% endfor %}
+
+<!-- ================= REVENUE ================= -->
+<h2>📊 Revenue Dashboard</h2>
+
+<div class="stats">
+    <div class="stat">
+        <h3>💰 Total</h3>
+        <p>₦{{ total_revenue }}</p>
+    </div>
+
+    <div class="stat">
+        <h3>✔ Verification</h3>
+        <p>₦{{ verification_revenue }}</p>
+    </div>
+
+    <div class="stat">
+        <h3>⭐ Boost</h3>
+        <p>₦{{ feature_revenue }}</p>
+    </div>
+
+    <div class="stat">
+        <h3>📦 Subscription</h3>
+        <p>₦{{ subscription_revenue }}</p>
+    </div>
+</div>
+
+<!-- ================= TOP USERS ================= -->
+<h2>🏆 Top Paying Users</h2>
+
+{% for item in top_users %}
+<div class="box">
+    <p><b>{{ item.user.name }}</b></p>
+    <p>₦{{ item.total }}</p>
+</div>
+{% endfor %}
+
+<!-- ================= RECENT PAYMENTS ================= -->
+<h2>📅 Recent Payments</h2>
+
+{% for p in recent_payments %}
+<div class="box">
+    <p><b>{{ p.payment_type }}</b></p>
+    <p>₦{{ p.amount }}</p>
+    <p>Status: {{ p.status }}</p>
+    <p>{{ p.created_at }}</p>
+</div>
+{% endfor %}
+
+</div>
+
+</body>
+</html>

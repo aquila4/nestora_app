@@ -1,0 +1,18 @@
+<h2>📜 Property Edit History</h2>
+
+{% for h in history %}
+
+<div style="border:1px solid #ccc; padding:10px; margin:10px;">
+    <p><b>{{ h.title }}</b></p>
+    <p>₦{{ h.price }}</p>
+    <p>{{ h.location }}</p>
+    <p>{{ h.description }}</p>
+    <p style="font-size:12px;">Edited at: {{ h.edited_at }}</p>
+
+    <!-- RESTORE BUTTON -->
+    <a href="/property/restore/{{ h.id }}" class="btn">
+        Restore
+    </a>
+</div>
+
+{% endfor %}

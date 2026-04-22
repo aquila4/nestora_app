@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Review Your Listing - Nestora</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .image {
+            width: 50%;
+        }
+
+        /* MAIN SWIPE IMAGE */
+        .main-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            touch-action: pan-y;
+            user-select: none;
+        }
+
+        .thumbs {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            overflow-x: auto;
+        }
+
+        .thumbs img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .thumbs img:hover {
+            border: 2px solid #ff385c;
+        }
+
+        .details {
+            width: 50%;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .value {
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 22px;
+            color: #e63946;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .btn {
+            margin-top: 20px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .publish {
+            background: #ff385c;
+            color: white;
+        }
+
+        .back {
+            background: #ddd;
+            margin-right: 10px;
+        }
+
+        .actions {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Review Your Listing</h1>
+
+    <div class="card">
+
+        <!-- IMAGE SECTION -->
+<div class="image">
+
+    {% if data.get('images') %}
+
+        <img id="mainImage"
+             class="main-image"
+             src="{{ data.get('images')[0] }}"
+        >
+
+        <div class="thumbs">
+            {% for img in data.get('images') %}
+                <img src="{{ img }}"
+                     onclick="setImage('{{ img }}')">
+            {% endfor %}
+        </div>
+
+    {% else %}
+
+        <img class="main-image"
+             src="{{ url_for('static', filename='uploads/default.jpg') }}">
+
+    {% endif %}
+
+</div>
+
+        <!-- DETAILS -->
+        <div class="details">
+
+            <div class="value">
+                <span class="label">Title:</span><br>
+                {{ data.get('title') }}
+            </div>
+
+            <div class="value">
+                <span class="label">Location:</span><br>
+                {{ data.get('location') }}
+            </div>
+
+            {% if data.get('bedrooms') %}
+            <div class="value">
+                <span class="label">Bedrooms:</span><br>
+                {{ data.get('bedrooms') }}
+            </div>
+            {% endif %}
+
+            <div class="value">
+                <span class="label">Description:</span><br>
+                {{ data.get('description') }}
+            </div>
+
+            <div class="price">
+                ₦{{ data.get('price') }}
+            </div>
+
+            <form method="POST" class="actions">
+
+                <a href="{{ url_for('list_step5') }}">
+                    <button type="button" class="btn back">Back</button>
+                </a>
+
+                <button type="submit" class="btn publish">
+                    Publish Listing
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+let images = {{ data.get('images') | tojson }};
+let currentIndex = 0;
+
+let mainImage = document.getElementById("mainImage");
+
+// 🧠 SAFE IMAGE LOADER (handles Cloudinary + local)
+function loadImage(index) {
+    if (!images || images.length === 0) return;
+
+    currentIndex = index;
+
+    mainImage.src = images[currentIndex]; // ✅ NO /static PREFIX
+}
+
+// CLICK THUMBNAIL
+function setImage(img) {
+    currentIndex = images.indexOf(img);
+    loadImage(currentIndex);
+}
+
+// INIT FIRST IMAGE
+if (images && images.length > 0) {
+    loadImage(0);
+}
+
+// SWIPE SUPPORT (MOBILE + DESKTOP)
+let startX = 0;
+
+mainImage.addEventListener("touchstart", function(e) {
+    startX = e.touches[0].clientX;
+});
+
+mainImage.addEventListener("touchend", function(e) {
+    let endX = e.changedTouches[0].clientX;
+
+    if (startX - endX > 50) nextImage();
+    else if (endX - startX > 50) prevImage();
+});
+
+// DESKTOP DRAG
+mainImage.addEventListener("mousedown", function(e) {
+    startX = e.clientX;
+});
+
+mainImage.addEventListener("mouseup", function(e) {
+    let endX = e.clientX;
+
+    if (startX - endX > 50) nextImage();
+    else if (endX - startX > 50) prevImage();
+});
+
+// NEXT / PREV
+function nextImage() {
+    if (!images || images.length === 0) return;
+    currentIndex = (currentIndex + 1) % images.length;
+    loadImage(currentIndex);
+}
+
+function prevImage() {
+    if (!images || images.length === 0) return;
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    loadImage(currentIndex);
+}
+</script>
+
+</body>
+</html>

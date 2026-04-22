@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ agent.name }} - Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+        }
+
+        body {
+            margin: 0;
+            background: #f7f7f7;
+            color: #222;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1100px;
+            margin: auto;
+            padding-top: 20px;
+        }
+
+        /* PROFILE CARD */
+        .profile-card {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .profile-card img {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .badge {
+            background: #dcfce7;
+            color: #166534;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+
+        .info {
+            margin-top: 5px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* BUTTONS */
+        .actions {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 13px;
+            color: white;
+        }
+
+        .call {
+            background: #111827;
+        }
+
+        .whatsapp {
+            background: #10b981;
+        }
+
+        /* SECTION TITLE */
+        h3 {
+            margin-top: 30px;
+            font-size: 18px;
+        }
+
+        /* GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+            margin-top: 15px;
+        }
+
+        /* PROPERTY CARD */
+        .card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+        .card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .content {
+            padding: 12px;
+        }
+
+        .title {
+            font-size: 15px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .price {
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        .location {
+            font-size: 13px;
+            color: #777;
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-top: 6px;
+            background: #f3f4f6;
+            color: #444;
+        }
+
+        .featured {
+            background: #fff3cd;
+            color: #b8860b;
+        }
+
+        /* MOBILE */
+        @media (max-width: 700px) {
+            .profile-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .actions {
+                justify-content: center;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- PROFILE -->
+    <div class="profile-card">
+
+        {% if agent.profile_image %}
+            <img src="{{ url_for('static', filename='uploads/' + agent.profile_image) }}">
+        {% else %}
+            <img src="{{ url_for('static', filename='uploads/default-avatar.png') }}">
+        {% endif %}
+
+        <div>
+
+            <h2>
+                {{ agent.name }}
+
+                {% if agent.verification_status == "verified" %}
+                    <span class="badge">✔ Verified Host</span>
+                {% endif %}
+            </h2>
+
+            <div class="info">📍 {{ agent.location or "No location set" }}</div>
+            <div class="info">💼 {{ agent.experience or "No experience info" }}</div>
+            <div class="info">📞 {{ agent.phone or "No phone" }}</div>
+            <div class="info">✉️ {{ agent.email }}</div>
+
+            <div class="actions">
+
+                <a href="tel:{{ agent.phone }}" class="btn call">Call</a>
+
+                {% if agent.phone %}
+                <a href="https://wa.me/{{ agent.phone }}" class="btn whatsapp">
+                    WhatsApp
+                </a>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- LISTINGS -->
+    <h3>🏠 Listings by {{ agent.name }}</h3>
+
+    <div class="grid">
+
+        {% for property in properties %}
+        <div class="card">
+
+            {% if property.image %}
+                <img src="{{ url_for('static', filename='uploads/' + property.image) }}">
+            {% else %}
+                <img src="{{ url_for('static', filename='uploads/default.jpg') }}">
+            {% endif %}
+
+            <div class="content">
+
+                <p class="title">{{ property.title }}</p>
+                <p class="price">₦{{ property.price }}</p>
+                <p class="location">{{ property.location }}</p>
+
+                {% if property.featured %}
+                    <span class="tag featured">⭐ Featured</span>
+                {% else %}
+                    <span class="tag">Standard</span>
+                {% endif %}
+
+                <div style="margin-top:10px;">
+                    <a href="/property/{{ property.id }}" class="btn call">
+                        View Property
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+</html>

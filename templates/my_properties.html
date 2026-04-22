@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Properties - Nestora</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+            background: #f7f7f7;
+            color: #222;
+        }
+
+        .container {
+            width: 92%;
+            margin: auto;
+            padding: 25px 0;
+        }
+
+        /* GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        /* CARD */
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: 0.25s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+
+        /* IMAGE */
+        .card img {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            transition: 0.3s ease;
+        }
+
+        .card:hover img {
+            transform: scale(1.05);
+        }
+
+        .content {
+            padding: 12px 14px 16px;
+        }
+
+        .title {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 5px 0;
+        }
+
+        .price {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .location {
+            font-size: 13px;
+            color: #666;
+        }
+
+        /* BADGES */
+        .badge-verified {
+            color: #00a651;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .badge-featured {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #ff385c;
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .boost-price {
+            display: inline-block;
+            background: #ff385c;
+            color: white;
+            padding: 4px 8px;
+            font-size: 12px;
+            border-radius: 6px;
+            margin-top: 5px;
+        }
+
+        .countdown {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        /* BUTTONS */
+        .btn-row {
+            display: flex;
+            gap: 6px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            text-decoration: none;
+            color: white;
+            display: inline-block;
+        }
+
+        .edit { background: #222; }
+        .delete { background: #e63946; }
+        .history { background: #444; }
+        .boost { background: #ff385c; }
+
+        /* STATUS */
+        .status-approved {
+            color: #00a651;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            color: #ff9800;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2 style="margin-bottom:20px;">🏠 My Properties</h2>
+
+    <div class="grid">
+
+        {% for property in properties %}
+
+        <div class="card">
+
+            <!-- FEATURED TAG -->
+            {% if property.featured %}
+                <div class="badge-featured">Featured</div>
+            {% endif %}
+
+            <!-- IMAGE FIX -->
+            {% if property.images and property.images|length > 0 %}
+                <img src="{{ property.images[0] }}">
+            {% else %}
+                <img src="{{ url_for('static', filename='uploads/default.jpg') }}">
+            {% endif %}
+
+            <div class="content">
+
+                <!-- VERIFIED -->
+                {% if property.user.verification_status == "verified" %}
+                    <div class="badge-verified">✔ Verified Agent</div>
+                {% endif %}
+
+                <!-- TITLE -->
+                <div class="title">{{ property.title }}</div>
+
+                <!-- PRICE -->
+                <div class="price">₦{{ property.price }}</div>
+
+                <!-- LOCATION -->
+                <div class="location">{{ property.location }}</div>
+
+                <!-- STATUS -->
+                {% if property.approved %}
+                    <div class="status-approved">🟢 Approved</div>
+                {% else %}
+                    <div class="status-pending">⏳ Pending Approval</div>
+                {% endif %}
+
+                <!-- BOOST INFO -->
+                {% if not property.featured %}
+                    <div class="boost-price">₦3,000 Boost</div>
+                {% endif %}
+
+                {% if property.featured and property.featured_until %}
+                    <div class="countdown">
+                        ⏳ Boost expires: {{ property.featured_until.strftime('%d %b %Y') }}
+                    </div>
+                {% endif %}
+
+                <!-- BUTTONS -->
+                <div class="btn-row">
+
+                    {% if not property.approved %}
+                        <a class="btn edit" href="/edit-property/{{ property.id }}">
+                            Edit
+                        </a>
+                    {% endif %}
+
+                    <a class="btn history" href="/property-history/{{ property.id }}">
+                        History
+                    </a>
+
+                    <a class="btn boost" href="/pay/boost/{{ property.id }}">
+                        Boost
+                    </a>
+
+                    <a class="btn delete"
+                       href="/delete/{{ property.id }}"
+                       onclick="return confirm('Delete this property?')">
+                        Delete
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+</html>

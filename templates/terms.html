@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Terms & Conditions - Nestora</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+            background: #f7f7f7;
+            color: #222;
+        }
+
+        /* NAV */
+        .nav {
+            background: white;
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #222;
+            font-weight: 600;
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 900px;
+            margin: 60px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #555;
+            line-height: 1.7;
+        }
+
+        ul {
+            margin-top: 15px;
+            padding-left: 20px;
+            color: #555;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        /* BACK BUTTON */
+        .back {
+            display: inline-block;
+            margin-top: 25px;
+            text-decoration: none;
+            background: #ff5a5f;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .back:hover {
+            background: #e14b50;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+            font-size: 13px;
+        }
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 8%;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.logo {
+    height: 40px;
+}
+
+.nav-right a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #222;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.nav-right a:hover {
+    color: #ff5a5f;
+}
+
+.container {
+    max-width: 900px;
+    margin: 60px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+.header h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.header p {
+    color: #555;
+    line-height: 1.6;
+}
+
+    </style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<div class="nav">
+    <div class="nav-left">
+        <a href="{{ url_for('landing') }}">
+            <img src="{{ url_for('static', filename='logo.png') }}" class="logo">
+        </a>
+    </div>
+
+    <div class="nav-right">
+        <a href="{{ url_for('landing') }}">Home</a>
+        <a href="{{ url_for('home') }}">Explore</a>
+        <a href="{{ url_for('how_it_works') }}">How it works</a>
+        <a href="{{ url_for('careers') }}">Careers</a>
+    </div>
+</div>
+
+<!-- CONTENT -->
+<div class="container">
+
+    <div class="header">
+        <h1>Terms & Conditions</h1>
+        <p>
+            By using Nestora, you agree to follow these terms and conditions.
+            Please read them carefully before using the platform.
+        </p>
+    </div>
+
+    <ul>
+        <li>Users must provide accurate and truthful property information</li>
+        <li>Fraudulent, fake, or misleading listings will be removed immediately</li>
+        <li>Payments made for boosts, verification, or subscriptions are non-refundable</li>
+        <li>Nestora reserves the right to update or modify rules at any time</li>
+        <li>Users must not misuse the platform for spam or illegal activities</li>
+    </ul>
+
+    <p>
+        Continued use of Nestora means you accept these terms.
+    </p>
+
+    <a class="back" href="{{ url_for('home') }}">← Back to Home</a>
+
+</div>
+
+<div class="footer">
+    © 2026 Nestora. All rights reserved.
+</div>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Step 1 - Property Type</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 flex items-center justify-center min-h-screen">
+
+<div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+
+  <h1 class="text-2xl font-bold mb-2">What type of property is it?</h1>
+  <p class="text-gray-500 mb-6">Step 1 of 5</p>
+
+  <form method="POST" class="space-y-4">
+
+<select name="property_type" id="property_type" onchange="toggleBedrooms()">
+    <option value="house">House</option>
+    <option value="apartment">Apartment</option>
+    <option value="land">Land</option>
+</select>
+<div id="bedroomsBox">
+    <label>Bedrooms</label>
+    <input type="number" name="bedrooms">
+</div>
+
+    <button class="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800">
+      Continue
+    </button>
+
+  </form>
+
+</div>
+
+</body>
+</html>
+
+<script>
+function toggleBedrooms() {
+    let type = document.getElementById("property_type").value;
+    let box = document.getElementById("bedroomsBox");
+
+    if (type === "land") {
+        box.style.display = "none";
+    } else {
+        box.style.display = "block";
+    }
+}
+</script>
