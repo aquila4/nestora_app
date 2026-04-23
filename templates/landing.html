@@ -23,6 +23,30 @@ body {
     overflow-x: hidden;
 }
 
+html, body {
+    overflow-x: hidden;
+}
+
+.hero,
+.features-section,
+.features-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+@media (max-width: 900px) {
+    .hero,
+    .features-section,
+    .features-wrapper {
+        flex-direction: column;
+        text-align: center;
+    }
+}
 /* =========================
    NAVBAR
 ========================= */
