@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Help Center - Nestora</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+      background: #fff;
+      color: #222;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .search {
+      margin: 20px 0;
+    }
+
+    .search input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 999px;
+      border: 1px solid #ddd;
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .card {
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 15px;
+      transition: 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+    }
+
+    .card h3 {
+      margin: 0 0 5px;
+      font-size: 16px;
+    }
+
+    .card p {
+      font-size: 13px;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>Hi, how can we help?</h1>
+  <p>Find answers or contact support</p>
+
+  <div class="search">
+    <input type="text" placeholder="Search help articles...">
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <h3>Getting Started</h3>
+      <p>Learn how to post and manage properties</p>
+    </div>
+
+    <div class="card">
+      <h3>Payments</h3>
+      <p>Understand boosting and subscription</p>
+    </div>
+
+    <div class="card">
+      <h3>Account</h3>
+      <p>Manage your profile and settings</p>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>

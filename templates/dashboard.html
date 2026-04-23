@@ -195,11 +195,9 @@
         {% for property in properties %}
         <div class="card">
 
-<img
-src="{% if property.image and property.image.startswith('http') %}
-        {{ property.image }}
-     {% elif property.image %}
-        {{ url_for('static', filename='uploads/' ~ property.image) }}
+            <img
+src="{% if property.images and property.images|length > 0 %}
+        {{ property.images[0] }}
      {% else %}
         {{ url_for('static', filename='uploads/default.jpg') }}
      {% endif %}"

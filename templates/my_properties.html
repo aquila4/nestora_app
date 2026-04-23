@@ -147,7 +147,15 @@
 
 <div class="container">
 
-    <h2 style="margin-bottom:20px;">🏠 My Properties</h2>
+    <div style="margin-bottom:20px;">
+  <h2 style="font-size:28px; font-weight:600; margin:0;">
+    🏡 My Properties
+  </h2>
+
+  <p style="font-size:14px; color:gray; margin-top:5px;">
+    Manage your listings
+  </p>
+</div>
 
     <div class="grid">
 
@@ -187,7 +195,7 @@
                 {% if property.approved %}
                     <div class="status-approved">🟢 Approved</div>
                 {% else %}
-                    <div class="status-pending">⏳ Pending Approval</div>
+                    <div class="status-pending">⏳ Featured Pending Approval</div>
                 {% endif %}
 
                 <!-- BOOST INFO -->

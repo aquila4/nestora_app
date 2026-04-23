@@ -115,14 +115,20 @@ html { scroll-behavior: smooth; }
       <span class="font-bold text-lg text-black">Nestora</span>
     </div>
 
-    <!-- DESKTOP NAV -->
-    <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+<nav class="hidden md:flex items-center gap-6 text-sm font-medium">
 
-  <a href="/landing" class="hover:text-red-500">Home</a>
+  {% if current_user.is_authenticated %}
+    <span class="text-sm text-gray-700 font-medium">
+      👋 Hi, {{ current_user.name }}
+    </span>
+  {% endif %}
+
+  <a href="/home" class="hover:text-red-500">Home</a>
 
   <a href="/" class="hover:text-red-500">Explore</a>
 
   {% if current_user.is_authenticated %}
+
     <a href="/dashboard" class="hover:text-red-500">Dashboard</a>
 
     {% if current_user.is_admin %}
@@ -159,6 +165,7 @@ html { scroll-behavior: smooth; }
     </nav>
 
     <!-- MOBILE BUTTON -->
+     
     <button id="menuBtn" class="md:hidden text-2xl">
       ☰
     </button>
@@ -167,16 +174,23 @@ html { scroll-behavior: smooth; }
 </header>
 
 <!-- ================= MOBILE OVERLAY ================= -->
+ 
 <div id="overlay"
      class="fixed inset-0 bg-black/50 hidden z-40"></div>
 
 <!-- ================= MOBILE MENU ================= -->
+ 
 <div id="mobileMenu"
      class="fixed top-0 left-0 w-72 h-full bg-white shadow-xl p-6 transform -translate-x-full transition-transform duration-300 z-50">
 
     <button id="closeMenu" class="text-xl mb-6">✕</button>
+    {% if current_user.is_authenticated %}
+  <div class="py-3 border-b font-semibold text-gray-700">
+    👋 Hi, {{ current_user.name }}
+  </div>
+{% endif %}
 
-    <a href="/landing" class="block py-3 border-b font-semibold">Home</a>
+    <a href="/home" class="block py-3 border-b font-semibold">Home</a>
 <a href="/" class="block py-3 border-b">Explore Properties</a>
 
     {% if current_user.is_authenticated %}
@@ -370,10 +384,15 @@ style="background:url('https://images.unsplash.com/photo-1568605114967-8130f3a36
 
     <div class="p-4">
 
-        <h3 class="font-semibold">{{ property.title }}</h3>
-        <p class="text-sm text-gray-500">📍 {{ property.location }}</p>
+        <p class="text-sm text-gray-500">
+    📍 {{ property.location }} • 🛏 {{ property.bedrooms or 0 }} bedroom
+</p>
 
-        <p class="font-bold mt-2">₦{{ property.price }}</p>
+<p class="font-bold mt-2 text-lg">
+    ₦{{ "{:,}".format(property.price|int) }}
+</p>
+
+  
 
         {% if property.approved %}
             <span class="text-green-600 text-xs">✔ Approved</span>
@@ -428,17 +447,17 @@ style="background:url('https://images.unsplash.com/photo-1568605114967-8130f3a36
         <!-- SUPPORT -->
         <div class="footer-col">
             <h4>Support</h4>
-            <a href="#">Help Center</a>
-            <a href="#">Contact Us</a>
-            <a href="#">Privacy Policy</a>
+            <a href="{{ url_for('help_center') }}">Help Center</a>
+            <a href="{{ url_for('contact') }}">Contact Us</a>
+            <a href="{{ url_for('privacy') }}">Privacy Policy</a>
         </div>
 
         <!-- SOCIAL -->
         <div class="footer-col">
             <h4>Connect</h4>
-            <a href="#">WhatsApp</a>
-            <a href="#">Instagram</a>
-            <a href="#">Twitter</a>
+            <a href="https://wa.me/2349018907979" target="_blank">WhatsApp</a>
+            <a href="https://www.instagram.com/nestora_01?igsh=MWZ2dnp3M2d5N3Fyaw%3D%3D&utm_source=qr" target="_blank">Instagram</a>
+            <a href="https://x.com/nestora_1" target="_blank">Twitter</a>
         </div>
 
     </div>

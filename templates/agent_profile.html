@@ -174,12 +174,22 @@
     <!-- PROFILE -->
     <div class="profile-card">
 
-        {% if agent.profile_image %}
-            <img src="{{ url_for('static', filename='uploads/' + agent.profile_image) }}">
-        {% else %}
-            <img src="{{ url_for('static', filename='uploads/default-avatar.png') }}">
-        {% endif %}
 
+{% if agent.profile_image %}
+
+    {% if agent.profile_image.startswith('http') %}
+        <img src="{{ agent.profile_image }}">
+
+    {% elif 'avatars/' in agent.profile_image %}
+        <img src="{{ url_for('static', filename=agent.profile_image) }}">
+
+    {% else %}
+        <img src="{{ url_for('static', filename='avatars/' + agent.profile_image) }}">
+    {% endif %}
+
+{% else %}
+    <img src="{{ url_for('static', filename='uploads/default-avatar.png') }}">
+{% endif %}
         <div>
 
             <h2>
@@ -218,12 +228,15 @@
 
         {% for property in properties %}
         <div class="card">
-
-            {% if property.image %}
-                <img src="{{ url_for('static', filename='uploads/' + property.image) }}">
+            {% if property.images and property.images|length > 0 %}
+                <img src="{{ property.images[0] }}">
             {% else %}
                 <img src="{{ url_for('static', filename='uploads/default.jpg') }}">
             {% endif %}
+
+            
+
+
 
             <div class="content">
 

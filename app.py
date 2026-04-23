@@ -351,6 +351,17 @@ def privacy():
 def terms():
     return render_template("terms.html")
 
+@app.route("/help-center")
+def help_center():
+    return render_template("help_center.html")
+
+
+@app.route("/contact")
+def contact():
+    return render_template("contact_us.html")
+
+
+
 
 # ---------------- HOME ----------------
 @app.route("/home")
@@ -751,7 +762,7 @@ def edit_property(property_id):
             price=property.price,
             location=property.location,
             description=property.description,
-            image=property.image
+            image=property.images[0] if property.images else None
         )
         db.session.add(history)
             # 🔍 COMPARE OLD VS NEW (ADD THIS HERE)
