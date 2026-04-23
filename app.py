@@ -70,58 +70,64 @@ def upload_to_cloudinary(file):
     )
     return result["secure_url"]
 
+from datetime import datetime, timezone
+
 def property_score(p):
-
     score = 0
+    now = datetime.now(timezone.utc)
 
-    # ⭐ Featured boost (strong but time-aware)
+    # ⭐ Featured boost
     if p.featured:
         score += 50
 
-    # 🔥 Paid boost with decay
+    # 🔥 Featured until (safe timezone handling)
     if p.featured_until:
-        days_left = (p.featured_until - datetime.now(timezone.utc)).days
+        featured_until = p.featured_until
+
+        if featured_until.tzinfo is None:
+            featured_until = featured_until.replace(tzinfo=timezone.utc)
+
+        days_left = (featured_until - now).days
+
         if days_left > 0:
             score += min(40, days_left * 5)
 
-    # 👀 Engagement (VERY important for Airbnb style ranking)
+    # 👀 Engagement
     score += (p.views or 0) * 0.4
 
-    # ❤️ Favorites boost (if you have it)
-    if hasattr(p, "favorites_count"):
+    # ❤️ Favorites
+    if hasattr(p, "favorites_count") and p.favorites_count:
         score += p.favorites_count * 2
 
-    # 📍 Location relevance boost
+    # 📍 Location boost
     popular_cities = ["lagos", "abuja", "ilorin", "ibadan"]
+
     if p.location:
         location = p.location.lower()
-        for city in popular_cities:
-            if city in location:
-                score += 25
-                break
+        if any(city in location for city in popular_cities):
+            score += 25
 
-    # 💰 Price attractiveness (soft curve instead of hard range)
+    # 💰 Price logic
     if p.price:
         if 500000 <= p.price <= 5000000:
             score += 20
         elif p.price < 200000:
-            score += 10  # budget boost
+            score += 10
         elif p.price > 20000000:
-            score -= 10  # overpriced penalty
+            score -= 10
 
-    # 🏠 Bedroom demand sweet spot
+    # 🏠 Bedrooms
     if p.bedrooms in [1, 2, 3]:
         score += 15
 
-    # 📅 Freshness (time decay like Airbnb)
+    # 📅 Freshness
     if p.created_at:
-        now = datetime.now(timezone.utc)
-        if p.created_at.tzinfo is None:
-            created = p.created_at.replace(tzinfo=timezone.utc)
-        else:
-            created = p.created_at
+        created_at = p.created_at
 
-        days_old = (now - created).days
+        if created_at.tzinfo is None:
+            created_at = created_at.replace(tzinfo=timezone.utc)
+
+        days_old = (now - created_at).days
 
         if days_old < 3:
             score += 25
@@ -130,10 +136,9 @@ def property_score(p):
         elif days_old < 30:
             score += 5
         else:
-            score -= 5  # old listings decay
+            score -= 5
 
     return score
-
 def get_recommendations(user_id):
 
     try:
