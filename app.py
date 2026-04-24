@@ -4,7 +4,7 @@ import requests
 import hmac
 import hashlib
 
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, send_file
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_migrate import Migrate
 from flask_mail import Mail, Message as MailMessage
@@ -694,28 +694,24 @@ def pay(property_id):
 
 # ---------------- ADMIN ROUTES ----------------
 
-
-@app.route("/admin/feature/<int:property_id>")
+# FEATURE PROPERTY
+@app.route("/admin/property/feature/<int:property_id>")
 @login_required
 @admin_required
-def admin_feature(property_id):
-
+def admin_feature_property(property_id):
     property = Property.query.get_or_404(property_id)
     property.featured = True
-
     db.session.commit()
-
     return redirect(url_for("admin_dashboard"))
 
-
-@app.route("/admin/delete/<int:property_id>")
+# DELETE PROPERTY
+@app.route("/admin/property/delete/<int:property_id>")
 @login_required
 @admin_required
-def admin_delete(property_id):
+def admin_delete_property(property_id):
 
     property = Property.query.get_or_404(property_id)
 
-    # 🧹 delete dependencies first
     UserActivity.query.filter_by(property_id=property_id).delete()
     Favorite.query.filter_by(property_id=property_id).delete()
 
@@ -723,27 +719,46 @@ def admin_delete(property_id):
     db.session.commit()
 
     return redirect(url_for("admin_dashboard"))
-# ✅ APPROVE PROPERTY
-@app.route("/admin/approve/<int:property_id>")
+
+# APPROVE PROPERTY
+@app.route("/admin/property/approve/<int:property_id>")
 @login_required
 @admin_required
-def admin_approve(property_id):
+def admin_approve_property(property_id):
     property = Property.query.get_or_404(property_id)
     property.approved = True
     db.session.commit()
     return redirect(url_for("admin_dashboard"))
 
-
-# ❌ REJECT PROPERTY
-@app.route("/admin/reject/<int:property_id>")
+# REJECT PROPERTY
+@app.route("/admin/property/reject/<int:property_id>")
 @login_required
 @admin_required
-def admin_reject(property_id):
+def admin_reject_property(property_id):
     property = Property.query.get_or_404(property_id)
     property.approved = False
     db.session.commit()
     return redirect(url_for("admin_dashboard"))
 
+    # VERIFY USER
+@app.route("/admin/user/verify/<int:user_id>")
+@login_required
+@admin_required
+def verify_user(user_id):
+    user = User.query.get_or_404(user_id)
+    user.verification_status = "verified"
+    db.session.commit()
+    return redirect(url_for("admin_dashboard"))
+
+# REJECT USER
+@app.route("/admin/user/reject/<int:user_id>")
+@login_required
+@admin_required
+def reject_user(user_id):
+    user = User.query.get_or_404(user_id)
+    user.verification_status = "rejected"
+    db.session.commit()
+    return redirect(url_for("admin_dashboard"))
 
 @app.route("/edit-property/<int:property_id>", methods=["GET", "POST"])
 @login_required
@@ -1053,6 +1068,80 @@ def paystack_webhook():
         print("🔥 WEBHOOK ERROR TYPE:", type(e).__name__)
         print("🔥 WEBHOOK ERROR:", str(e))
         return "error", 500
+
+
+
+    
+
+@app.route('/admin/verification')
+@login_required
+def verification_requests():
+
+    if not current_user.is_admin:
+        return "Unauthorized"
+
+    users = User.query.filter_by(verification_status="pending").all()
+
+    return render_template("admin_verification.html", users=users)
+
+@app.route('/admin/approve/<int:user_id>')
+@login_required
+def approve(user_id):
+
+    if not current_user.is_admin:
+        return "Unauthorized"
+
+    user = User.query.get(user_id)
+    user.is_verified = True
+    user.verification_status = "verified"
+    db.session.commit()
+
+    return redirect('/admin/verification')
+
+
+@app.route('/request-verification', methods=['POST'])
+@login_required
+def request_verification():
+
+    file = request.files.get('document')
+
+    if not file:
+        return "No file uploaded", 400
+
+    filename = secure_filename(file.filename)
+
+    upload_folder = os.path.join(os.getcwd(), 'private_uploads')
+    os.makedirs(upload_folder, exist_ok=True)
+
+    file_path = os.path.join(upload_folder, filename)
+    file.save(file_path)
+
+    current_user.verification_doc = filename
+    current_user.verification_status = "pending"
+
+    db.session.commit()
+
+    return redirect(url_for('agent_profile', user_id=current_user.id))
+
+
+
+
+   
+
+
+
+@app.route("/admin/view-doc/<int:user_id>")
+@login_required
+def view_doc(user_id):
+
+    if not current_user.is_admin:
+        return "Unauthorized", 403
+
+    user = User.query.get_or_404(user_id)
+
+    file_path = os.path.join("private_uploads", user.verification_doc)
+
+    return send_file(file_path)
    
 
 @app.route("/admin/refund/<int:payment_id>")
@@ -1184,7 +1273,7 @@ def admin_dashboard():
         func.sum(PaymentLog.amount)
     ).filter(PaymentLog.payment_type == PAYMENT_SUBSCRIPTION).scalar() or 0
 
-    # 👤 TOP PAYING USERS
+    # 👤 TOP USERS
     top_users = db.session.query(
         PaymentLog.user_id,
         func.sum(PaymentLog.amount).label("total")
@@ -1193,20 +1282,28 @@ def admin_dashboard():
      .limit(5).all()
 
     user_ids = [u.user_id for u in top_users]
-    users = {u.id: u for u in User.query.filter(User.id.in_(user_ids)).all()}
+
+    top_users_map = {
+        u.id: u for u in User.query.filter(User.id.in_(user_ids)).all()
+    }
 
     top_users_data = [
         {
-            "user": users.get(u.user_id),
+            "user": top_users_map.get(u.user_id),
             "total": u.total
         }
         for u in top_users
     ]
 
-    # 📅 RECENT TRANSACTIONS
+    # 📅 RECENT PAYMENTS
     recent_payments = PaymentLog.query.order_by(
         PaymentLog.created_at.desc()
     ).limit(10).all()
+
+    # 🔐 ✅ ADD THIS (VERIFICATION USERS)
+    verification_users = User.query.filter_by(
+        verification_status="pending"
+    ).all()
 
     return render_template(
         "admin.html",
@@ -1218,10 +1315,11 @@ def admin_dashboard():
         feature_revenue=feature_revenue,
         subscription_revenue=subscription_revenue,
         top_users=top_users_data,
-        recent_payments=recent_payments
+        recent_payments=recent_payments,
+
+        # ✅ PASS THIS
+        verification_users=verification_users
     )
-
-
 
 @app.route("/favorite/<int:property_id>")
 @login_required

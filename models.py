@@ -8,22 +8,46 @@ db = SQLAlchemy()
 # ---------------- USER MODEL ----------------
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
+
+    # BASIC INFO
     name = db.Column(db.String(100))
     email = db.Column(db.String(100), unique=True)
     phone = db.Column(db.String(20))
     password = db.Column(db.String(255))
 
+    # ROLE
     is_admin = db.Column(db.Boolean, default=False)
 
+    # PROFILE
     profile_image = db.Column(db.String(255), default="default-avatar.png")
-
-    subscription_plan = db.Column(db.String(20), default="free")  # free / pro
-    subscription_expiry = db.Column(db.DateTime, nullable=True)
-
     location = db.Column(db.String(200))
     experience = db.Column(db.String(200))
 
-    
+    # SUBSCRIPTION SYSTEM
+    subscription_plan = db.Column(db.String(20), default="free")  # free / pro
+    subscription_expiry = db.Column(db.DateTime, nullable=True)
+
+    # ================= VERIFICATION SYSTEM (CLEAN) =================
+    verification_status = db.Column(
+        db.String(20),
+        default="unverified"
+    )
+    # unverified | pending | verified | rejected
+
+    verification_doc = db.Column(
+        db.String(255),
+        nullable=True
+    )
+
+    verification_note = db.Column(
+        db.Text,
+        nullable=True
+    )
+
+    verified_at = db.Column(
+        db.DateTime,
+        nullable=True
+    )
     # ---------------- PROPERTY MODEL ----------------
 class Property(db.Model):
     id = db.Column(db.Integer, primary_key=True)

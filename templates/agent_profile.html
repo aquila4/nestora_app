@@ -11,10 +11,36 @@
         }
 
         body {
-            margin: 0;
-            background: #f7f7f7;
-            color: #222;
-        }
+    margin: 0;
+    color: #222;
+
+    /* soft gradient background */
+    background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 50%, #ffffff 100%);
+    overflow-x: hidden;
+}
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.25;
+    z-index: -1;
+}
+
+body::before {
+    background: #ff385c;
+    top: -150px;
+    left: -150px;
+}
+
+body::after {
+    background: #4facfe;
+    bottom: -150px;
+    right: -150px;
+}
 
         .container {
             width: 92%;
@@ -164,6 +190,16 @@
             }
         }
 
+
+        .badge {
+    background: #dcfce7;
+    color: #166534;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin-left: 8px;
+    font-weight: 600;
+}
     </style>
 </head>
 
@@ -190,36 +226,112 @@
 {% else %}
     <img src="{{ url_for('static', filename='uploads/default-avatar.png') }}">
 {% endif %}
-        <div>
 
-            <h2>
-                {{ agent.name }}
 
-                {% if agent.verification_status == "verified" %}
-                    <span class="badge">✔ Verified Host</span>
-                {% endif %}
-            </h2>
+<!-- ================= AGENT PROFILE ================= -->
 
-            <div class="info">📍 {{ agent.location or "No location set" }}</div>
-            <div class="info">💼 {{ agent.experience or "No experience info" }}</div>
-            <div class="info">📞 {{ agent.phone or "No phone" }}</div>
-            <div class="info">✉️ {{ agent.email }}</div>
+<div class="profile-card">
 
-            <div class="actions">
+    <!-- PROFILE INFO -->
+    <div class="profile-info">
 
-                <a href="tel:{{ agent.phone }}" class="btn call">Call</a>
+        <h2>
+            {{ agent.name }}
 
-                {% if agent.phone %}
-                <a href="https://wa.me/{{ agent.phone }}" class="btn whatsapp">
-                    WhatsApp
-                </a>
-                {% endif %}
+            {% if agent.verification_status == "verified" %}
+                <span class="badge verified">✔ Verified Host</span>
 
-            </div>
+            {% elif agent.verification_status == "pending" %}
+                <span class="badge pending">⏳ Pending Verification</span>
+            {% endif %}
+        </h2>
+
+        <div class="info">📍 {{ agent.location or "No location set" }}</div>
+        <div class="info">💼 {{ agent.experience or "No experience info" }}</div>
+        <div class="info">📞 {{ agent.phone or "No phone" }}</div>
+        <div class="info">✉️ {{ agent.email }}</div>
+
+        <!-- ACTIONS -->
+        <div class="actions">
+
+            <a href="tel:{{ agent.phone }}" class="btn call">Call</a>
+
+            {% if agent.phone %}
+            <a href="https://wa.me/{{ agent.phone }}" class="btn whatsapp">
+                WhatsApp
+            </a>
+            {% endif %}
 
         </div>
 
+        <!-- PENDING MESSAGE -->
+        {% if agent.verification_status == "pending" %}
+        <div style="margin-top:15px; background:#fff3cd; padding:10px; border-radius:10px;">
+            ⏳ Your verification is under review. We will notify you once approved.
+        </div>
+        {% endif %}
+
+        <!-- REQUEST VERIFICATION -->
+        {% if agent.verification_status == "unverified" %}
+        <form action="/request-verification" method="POST" enctype="multipart/form-data" style="margin-top:15px;">
+
+            <p><b>Become a Verified Agent</b></p>
+
+            <input type="file" name="document" required>
+
+            <button type="submit"
+                style="background:black;color:white;padding:10px;border-radius:10px;margin-top:10px;">
+                Request Verification
+            </button>
+
+        </form>
+        {% endif %}
+
     </div>
+
+</div>
+
+<!-- ================= VERIFICATION SECTION ================= -->
+
+<div class="verification-box" style="margin-top:20px;">
+
+    {% if not agent.is_verified %}
+
+        <!-- PENDING / REQUEST VERIFICATION -->
+        <form action="/request-verification" method="POST" enctype="multipart/form-data"
+              style="background:white;padding:15px;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+
+            <h3 style="margin-bottom:10px;">🔐 Become a Verified Agent</h3>
+
+            <p style="font-size:13px;color:#666;margin-bottom:10px;">
+                Upload a valid ID or document to get verified by Nestora.
+            </p>
+
+            <input type="file" name="document" required
+                   style="margin-bottom:10px;">
+
+            <button type="submit"
+                style="background:black;color:white;padding:10px 15px;border-radius:10px;">
+                Request Verification
+            </button>
+
+        </form>
+
+    {% else %}
+
+        <!-- VERIFIED -->
+        <div style="background:#dcfce7;color:#166534;padding:12px;border-radius:12px;font-weight:600;">
+            ✔ This Agent is Verified by Nestora
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+
+        
+
 
     <!-- LISTINGS -->
     <h3>🏠 Listings by {{ agent.name }}</h3>
