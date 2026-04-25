@@ -1,8 +1,30 @@
-<!DOCTYPE html>
-<html>
 <head>
-    <title>{{ property.title }}</title>
+    <title>{{ property.title }} | Nestora</title>
+
+    <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO (Google) -->
+    <meta name="description"
+          content="{{ property.title }} located in {{ property.location }} for ₦{{ property.price }}. View details and contact on Nestora." />
+
+    <meta name="robots" content="index, follow">
+
+    <!-- OPEN GRAPH (WhatsApp / Facebook preview) -->
+    <meta property="og:title" content="{{ property.title }} | Nestora">
+
+    <meta property="og:description"
+          content="Located in {{ property.location }}. Price: ₦{{ property.price }}">
+
+    <meta property="og:type" content="article">
+
+    <meta property="og:image"
+          content="{{ property.images[0] if property.images else url_for('static', filename='home.png') }}">
+
+    <meta property="og:url"
+          content="https://www.nestora.com/property/{{ property.id }}">
+
 
     <style>
         * {

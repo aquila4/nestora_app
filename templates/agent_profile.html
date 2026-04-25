@@ -72,14 +72,16 @@ body::after {
             font-size: 22px;
         }
 
+
         .badge {
-            background: #dcfce7;
-            color: #166534;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            margin-left: 8px;
-        }
+    background: #dcfce7;
+    color: #166534;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin-left: 8px;
+    font-weight: 600;
+}
 
         .info {
             margin-top: 5px;
@@ -191,15 +193,6 @@ body::after {
         }
 
 
-        .badge {
-    background: #dcfce7;
-    color: #166534;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    margin-left: 8px;
-    font-weight: 600;
-}
     </style>
 </head>
 
@@ -293,40 +286,7 @@ body::after {
 
 <!-- ================= VERIFICATION SECTION ================= -->
 
-<div class="verification-box" style="margin-top:20px;">
 
-    {% if not agent.is_verified %}
-
-        <!-- PENDING / REQUEST VERIFICATION -->
-        <form action="/request-verification" method="POST" enctype="multipart/form-data"
-              style="background:white;padding:15px;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.05);">
-
-            <h3 style="margin-bottom:10px;">🔐 Become a Verified Agent</h3>
-
-            <p style="font-size:13px;color:#666;margin-bottom:10px;">
-                Upload a valid ID or document to get verified by Nestora.
-            </p>
-
-            <input type="file" name="document" required
-                   style="margin-bottom:10px;">
-
-            <button type="submit"
-                style="background:black;color:white;padding:10px 15px;border-radius:10px;">
-                Request Verification
-            </button>
-
-        </form>
-
-    {% else %}
-
-        <!-- VERIFIED -->
-        <div style="background:#dcfce7;color:#166534;padding:12px;border-radius:12px;font-weight:600;">
-            ✔ This Agent is Verified by Nestora
-        </div>
-
-    {% endif %}
-
-</div>
 
 
 

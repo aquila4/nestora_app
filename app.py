@@ -3,7 +3,7 @@ import json
 import requests
 import hmac
 import hashlib
-
+from flask import Response
 from flask import Flask, render_template, request, redirect, url_for, session, send_file
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_migrate import Migrate
@@ -1494,7 +1494,51 @@ def send_message(chat_id):
 
 
 
+    
 
+@app.route("/sitemap.xml", methods=["GET"])
+def sitemap():
+    base_url = "https://www.usenestora.com"
+
+    pages = []
+
+    # Static pages
+    static_urls = [
+        "/",
+        "/home",
+        "/list-property/step1",
+        "/login",
+        "/register"
+    ]
+
+    for url in static_urls:
+        pages.append(f"""
+        <url>
+            <loc>{base_url}{url}</loc>
+            <changefreq>weekly</changefreq>
+            <priority>0.8</priority>
+        </url>
+        """)
+
+    # Dynamic property pages (IMPORTANT PART)
+    properties = Property.query.all()  # adjust if your model name differs
+
+    for p in properties:
+        pages.append(f"""
+        <url>
+            <loc>{base_url}/property/{p.id}</loc>
+            <changefreq>daily</changefreq>
+            <priority>1.0</priority>
+        </url>
+        """)
+
+    sitemap_xml = f"""<?xml version="1.0" encoding="UTF-8"?>
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+        {''.join(pages)}
+    </urlset>
+    """
+
+    return Response(sitemap_xml, mimetype="application/xml")
 
 # ---------------- RUN ----------------
 import os
