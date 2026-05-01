@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Step 4 - Images</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 flex items-center justify-center min-h-screen">
+
+<div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+
+    <h1 class="text-2xl font-bold mb-2">Upload Images</h1>
+    <p class="text-gray-500 mb-6">Upload up to 10 images</p>
+
+    <form method="POST" enctype="multipart/form-data" class="space-y-4">
+
+        <!-- FILE INPUT -->
+        <input type="file"
+               id="images"
+               name="images"
+               multiple
+               accept="image/*"
+               class="w-full border p-3 rounded-lg"
+               required>
+
+        <!-- PREVIEW -->
+        <div id="preview" class="grid grid-cols-3 gap-2"></div>
+
+        <button type="submit"
+                class="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800">
+            Continue
+        </button>
+
+    </form>
+
+</div>
+
+<script>
+document.getElementById("images").addEventListener("change", function(event) {
+
+    let preview = document.getElementById("preview");
+    preview.innerHTML = "";
+
+    let files = event.target.files;
+
+    if (files.length > 10) {
+        alert("You can only upload up to 10 images");
+        this.value = "";
+        return;
+    }
+
+    Array.from(files).forEach(file => {
+
+        if (!file.type.startsWith("image/")) return;
+
+        let reader = new FileReader();
+
+        reader.onload = function(e) {
+            let img = document.createElement("img");
+            img.src = e.target.result;
+            img.className = "w-full h-24 object-cover rounded-lg border";
+            preview.appendChild(img);
+        };
+
+        reader.readAsDataURL(file);
+    });
+
+});
+</script>
+
+</body>
+</html>

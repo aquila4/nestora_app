@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard - Nestora</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: #0b0b0f;
+            color: #fff;
+        }
+
+        body::before, body::after {
+            content: "";
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            filter: blur(140px);
+            opacity: 0.12;
+            z-index: -1;
+        }
+
+        body::before {
+            background: #d4af37;
+            top: -200px;
+            left: -200px;
+        }
+
+        body::after {
+            background: #4facfe;
+            bottom: -200px;
+            right: -200px;
+        }
+
+        .header {
+            padding: 18px 5%;
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .container {
+            width: 90%;
+            margin: auto;
+            padding: 20px 0;
+        }
+
+        h2 {
+            margin-top: 40px;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #aaa;
+        }
+
+        /* GRID */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 18px;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .stat h2 {
+            margin: 0;
+            font-size: 26px;
+            color: #d4af37;
+        }
+
+        .stat p {
+            margin: 5px 0 0;
+            color: #aaa;
+            font-size: 12px;
+        }
+
+        /* BOX */
+        .box {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 16px;
+            margin: 10px 0;
+            border-radius: 16px;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+        }
+
+        .approved { background: rgba(0,200,83,0.2); color: #00e676; }
+        .pending { background: rgba(255,152,0,0.2); color: #ffb74d; }
+
+        .btn {
+            padding: 7px 12px;
+            border-radius: 10px;
+            font-size: 12px;
+            text-decoration: none;
+            margin-right: 5px;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .approve { background: #00c853; color: #000; }
+        .feature { background: #d4af37; color: #000; }
+        .delete { background: #ff1744; color: #fff; }
+
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+
+        <h3 style="margin:0;">🔥 Nestora Admin</h3>
+
+        <div>
+            <a href="{{ url_for('property.home') }}" style="margin-right:15px;">🏠 Home</a>
+            <a href="{{ url_for('auth.logout') }}">🚪 Logout</a>
+        </div>
+
+    </div>
+</div>
+
+<div class="container">
+
+<!-- ================= STATS ================= -->
+<div class="stats">
+    <div class="stat">
+        <h2>{{ total }}</h2>
+        <p>Total Properties</p>
+    </div>
+
+    <div class="stat">
+        <h2>{{ featured }}</h2>
+        <p>Featured Properties</p>
+    </div>
+</div>
+
+<!-- ================= REVENUE DASHBOARD ================= -->
+<h2>📊 Revenue Dashboard</h2>
+
+<div class="stats">
+
+    <div class="stat">
+        <h2>₦{{ total_revenue }}</h2>
+        <p>💰 Total Revenue</p>
+    </div>
+
+    <div class="stat">
+        <h2>₦{{ verification_revenue }}</h2>
+        <p>✔ Verification</p>
+    </div>
+
+    <div class="stat">
+        <h2>₦{{ feature_revenue }}</h2>
+        <p>⭐ Boost</p>
+    </div>
+
+    <div class="stat">
+        <h2>₦{{ subscription_revenue }}</h2>
+        <p>📦 Subscription</p>
+    </div>
+
+</div>
+
+<!-- ================= TOP USERS ================= -->
+<h2>🏆 Top Paying Users</h2>
+
+{% for item in top_users %}
+<div class="box">
+    <p><b>{{ item.user.name }}</b></p>
+    <p>₦{{ item.total }}</p>
+</div>
+{% endfor %}
+
+<!-- ================= RECENT PAYMENTS ================= -->
+<h2>📅 Recent Payments</h2>
+
+{% for p in recent_payments %}
+<div class="box">
+    <p><b>{{ p.payment_type }}</b> — ₦{{ p.amount }}</p>
+    <p>Status: {{ p.status }}</p>
+    <small>{{ p.created_at }}</small>
+</div>
+{% endfor %}
+
+<!-- ================= VERIFICATION REQUESTS ================= -->
+<h2>🔐 Verification Requests</h2>
+
+{% for user in verification_users %}
+<div class="box">
+
+    <p><b>{{ user.name }}</b></p>
+    <p>{{ user.email }}</p>
+
+    <a class="btn approve"
+       href="{{ url_for('admin.verify_user', user_id=user.id) }}">
+        Approve
+    </a>
+
+    <a class="btn delete"
+       href="{{ url_for('admin.reject_user', user_id=user.id) }}">
+        Reject
+    </a>
+
+</div>
+{% endfor %}
+
+<!-- ================= LISTINGS ================= -->
+<h2>🏠 All Listings</h2>
+
+{% for property in properties %}
+<div class="box">
+
+    <h3>{{ property.title }}</h3>
+    <p>₦{{ property.price }} | {{ property.location }}</p>
+
+    {% if property.approved %}
+        <span class="badge approved">Approved</span>
+    {% else %}
+        <span class="badge pending">Pending</span>
+    {% endif %}
+
+    <div style="margin-top:10px;">
+
+        {% if not property.approved %}
+            <a class="btn approve"
+               href="{{ url_for('admin.approve_property', property_id=property.id) }}">
+                Approve
+            </a>
+        {% else %}
+            <a class="btn delete"
+               href="{{ url_for('admin.reject_property', property_id=property.id) }}">
+                Reject
+            </a>
+
+            <a class="btn feature"
+               href="{{ url_for('admin.feature_property', property_id=property.id) }}">
+                Feature
+            </a>
+        {% endif %}
+
+        <a class="btn delete"
+           href="{{ url_for('admin.delete_property', property_id=property.id) }}">
+            Delete
+        </a>
+
+    </div>
+
+</div>
+{% endfor %}
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nestora</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+        }
+
+        body {
+            margin: 0;
+            background: #fff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 430px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+        }
+
+        .topbar {
+            padding: 18px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 18px;
+            color: #ff385c;
+        }
+
+        .help {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .content {
+            flex: 1;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin: 0;
+            color: #111;
+        }
+
+        p {
+            color: #666;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 16px;
+            margin: 8px 0;
+            border-radius: 12px;
+            border: 1px solid #e5e5e5;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #ff385c;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: #ff385c;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .back {
+            text-align: center;
+            margin-top: 12px;
+            color: #888;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .progress {
+            height: 3px;
+            background: #eee;
+            overflow: hidden;
+        }
+
+        .bar {
+            height: 3px;
+            width: 0%;
+            background: #ff385c;
+            transition: 0.3s;
+        }
+
+        .step {
+            display: none;
+            animation: fade 0.3s ease;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fade {
+            from {opacity: 0; transform: translateY(10px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+        <div class="logo">Nestora</div>
+        <div class="help">Help</div>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="progress">
+        <div class="bar" id="bar"></div>
+    </div>
+
+    <form method="POST">
+
+        <!-- STEP 1 -->
+        <div class="content step active">
+            <h1>Welcome to Nestora</h1>
+            <p>Join thousands of property agents and buyers</p>
+
+            <input type="text" name="name" placeholder="Full Name" required>
+
+            <button type="button" class="btn" onclick="nextStep()">Continue</button>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="content step">
+            <h1>Your Contact</h1>
+            <p>We use this to secure your account</p>
+
+            <input type="email" name="email" placeholder="Email Address" required>
+
+            <div style="display:flex; gap:10px;">
+                <select id="country_code" name="country_code">
+                    <option value="+234">🇳🇬 Nigeria (+234)</option>
+                    <option value="+1">🇺🇸 USA (+1)</option>
+                    <option value="+44">🇬🇧 UK (+44)</option>
+                    <option value="+91">🇮🇳 India (+91)</option>
+                    <option value="+61">🇦🇺 Australia (+61)</option>
+                    <option value="+49">🇩🇪 Germany (+49)</option>
+                    <option value="+33">🇫🇷 France (+33)</option>
+                    <option value="+971">🇦🇪 UAE (+971)</option>
+                    <option value="+27">🇿🇦 South Africa (+27)</option>
+                    <option value="+233">🇬🇭 Ghana (+233)</option>
+                </select>
+
+                <input type="text" id="phone_input" placeholder="Phone Number" required>
+            </div>
+
+            <input type="hidden" name="phone" id="full_phone">
+
+            <button type="button" class="btn" onclick="handlePhoneStep()">Continue</button>
+            <div class="back" onclick="prevStep()">Go back</div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="content step">
+            <h1>Almost done</h1>
+            <p>Tell us more about you</p>
+
+            <input type="text" name="location" placeholder="Location">
+            <input type="text" name="experience" placeholder="Experience (e.g. 2 years)">
+            <input type="password" name="password" placeholder="Create Password" required>
+
+            <button type="submit" class="btn">Create account</button>
+            <div class="back" onclick="prevStep()">Go back</div>
+        </div>
+
+    </form>
+
+    <div style="text-align:center; margin-top:20px;">
+        Already have an account?
+        <a href="/login" style="color:#ff385c; font-weight:600;">Login</a>
+    </div>
+
+    <div class="footer">
+        © 2026 Nestora. All rights reserved.
+    </div>
+
+</div>
+
+<script>
+
+let current = 0;
+const steps = document.querySelectorAll(".step");
+const bar = document.getElementById("bar");
+
+function showStep(i) {
+    steps.forEach((s, index) => {
+        s.classList.toggle("active", index === i);
+    });
+
+    bar.style.width = ((i) / (steps.length - 1)) * 100 + "%";
+}
+
+function nextStep() {
+    if (current < steps.length - 1) {
+        current++;
+        showStep(current);
+    }
+}
+
+function prevStep() {
+    if (current > 0) {
+        current--;
+        showStep(current);
+    }
+}
+
+/* STEP 2 VALIDATION */
+function handlePhoneStep() {
+
+    let code = document.getElementById("country_code").value;
+    let phone = document.getElementById("phone_input").value.trim();
+
+    phone = phone.replace(/\D/g, "");
+
+    if (phone.startsWith("0")) {
+        phone = phone.substring(1);
+    }
+
+    if (phone.length < 7) {
+        alert("Enter a valid phone number");
+        return;
+    }
+
+    document.getElementById("full_phone").value = code + phone;
+
+    nextStep();
+}
+
+</script>
+
+</body>
+</html>

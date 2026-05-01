@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Step 2 - Location</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 flex items-center justify-center min-h-screen">
+
+<div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+
+  <h1 class="text-2xl font-bold mb-2">Where is the property located?</h1>
+  <p class="text-gray-500 mb-6">Step 2 of 5</p>
+
+  <form method="POST" class="space-y-4">
+
+    <!-- LOCATION INPUT -->
+    <div>
+      <label class="block text-sm font-medium mb-1">Location</label>
+
+      <input name="location"
+             type="text"
+             placeholder="e.g. Lekki, Lagos"
+             class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+             required>
+    </div>
+
+    <!-- BUTTON -->
+    <button class="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition">
+      Continue
+    </button>
+
+  </form>
+
+</div>
+
+</body>
+</html>

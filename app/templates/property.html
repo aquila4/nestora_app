@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>{{ property.title }} | Nestora Luxury Homes</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap">
+
+<style>
+body{
+    margin:0;
+    font-family: 'Inter', sans-serif;
+    background:#0b0b0f;
+    color:#fff;
+}
+
+.header{
+    padding:18px 40px;
+    background:rgba(0,0,0,0.6);
+    backdrop-filter: blur(10px);
+    position:sticky;
+    top:0;
+    z-index:10;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.header strong{
+    font-size:18px;
+    letter-spacing:2px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:30px 20px;
+}
+
+.hero{
+    border-radius:18px;
+    overflow:hidden;
+    height:520px;
+    position:relative;
+}
+
+.hero img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.badge{
+    position:absolute;
+    top:20px;
+    left:20px;
+    background:linear-gradient(135deg,#d4af37,#f5e6a0);
+    color:#111;
+    padding:8px 14px;
+    font-size:12px;
+    font-weight:700;
+    border-radius:30px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:25px;
+    margin-top:25px;
+}
+
+.card{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:16px;
+    padding:20px;
+    backdrop-filter: blur(10px);
+}
+
+h1{
+    font-size:28px;
+    margin:0;
+}
+
+.location{
+    color:#bbb;
+    margin-top:6px;
+}
+
+.price{
+    font-size:24px;
+    font-weight:700;
+    margin-top:10px;
+    color:#d4af37;
+}
+
+.agent{
+    display:flex;
+    gap:12px;
+    align-items:center;
+}
+
+.agent img{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid #d4af37;
+}
+
+.btn{
+    display:block;
+    padding:12px;
+    text-align:center;
+    border-radius:12px;
+    margin-top:10px;
+    font-weight:600;
+    text-decoration:none;
+    transition:0.3s;
+}
+
+.primary{
+    background:#d4af37;
+    color:#111;
+}
+
+.primary:hover{
+    background:#f5e6a0;
+}
+
+.dark{
+    background:#1a1a1a;
+    color:#fff;
+}
+
+.whatsapp{
+    background:#25d366;
+    color:#fff;
+}
+
+.thumbs{
+    display:flex;
+    gap:10px;
+    margin-top:10px;
+}
+
+.thumbs img{
+    width:80px;
+    height:60px;
+    object-fit:cover;
+    border-radius:8px;
+    cursor:pointer;
+    opacity:0.6;
+}
+
+.thumbs img.active{
+    opacity:1;
+    border:2px solid #d4af37;
+}
+
+@media(max-width:900px){
+    .grid{grid-template-columns:1fr;}
+    .hero{height:320px;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <strong>NESTORA LUXURY</strong>
+</div>
+
+<div class="container">
+
+<!-- HERO -->
+<div class="hero">
+
+    {% set images = property.images if property.images else [] %}
+
+    {% if images|length > 0 %}
+        <img id="mainImage" src="{{ images[0] }}">
+    {% else %}
+        <img id="mainImage" src="{{ url_for('static', filename='uploads/default.jpg') }}">
+    {% endif %}
+
+    {% if property.featured|string in ['True','true','1','yes'] or property.featured %}
+        <div class="badge">BOOSTED PROPERTY</div>
+    {% endif %}
+
+</div>
+
+<!-- THUMBS -->
+<div class="thumbs">
+    {% for img in images %}
+        <img src="{{ img }}" class="{% if loop.index0 == 0 %}active{% endif %}"
+             onclick="setImage({{ loop.index0 }})">
+    {% endfor %}
+</div>
+
+<!-- CONTENT -->
+<div class="grid">
+
+    <!-- LEFT -->
+    <div class="card">
+
+        <h1>{{ property.title }}</h1>
+
+        <div class="location">📍 {{ property.location }}</div>
+
+        <div class="price">₦{{ property.price }}</div>
+
+        <p style="color:#ccc; margin-top:15px;">
+            {{ property.description or "No description available." }}
+        </p>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="card">
+
+        {% if property.user %}
+
+        <div class="agent">
+
+            {% set img = property.user.profile_image %}
+
+            {% if img %}
+                {% if img.startswith('http') %}
+                    <img src="{{ img }}">
+                {% elif img.startswith('avatars/') or img.startswith('uploads/') %}
+                    <img src="{{ url_for('static', filename=img) }}">
+                {% else %}
+                    <img src="{{ url_for('static', filename='avatars/' + img) }}">
+                {% endif %}
+            {% else %}
+                <img src="{{ url_for('static', filename='uploads/default-user.jpg') }}">
+            {% endif %}
+
+            <div>
+                <strong>{{ property.user.name }}</strong>
+                <div style="font-size:12px;color:#aaa;">Luxury Agent</div>
+            </div>
+
+        </div>
+
+        <hr style="border:1px solid rgba(255,255,255,0.1); margin:15px 0;">
+
+{% set phone = property.user.phone %}
+
+{% set clean_phone = phone
+    |replace('+','')
+    |replace(' ','')
+    |replace('-','')
+    |replace('(','')
+    |replace(')','')
+%}
+
+{# FIX DOUBLE 234 BUG #}
+{% if clean_phone.startswith('234234') %}
+    {% set clean_phone = clean_phone[3:] %}
+{% elif clean_phone.startswith('2340') %}
+    {% set clean_phone = '234' + clean_phone[4:] %}
+{% elif clean_phone.startswith('0') %}
+    {% set clean_phone = '234' + clean_phone[1:] %}
+{% elif not clean_phone.startswith('234') %}
+    {% set clean_phone = '234' + clean_phone %}
+{% endif %}
+
+<p>📞 +{{ clean_phone }}</p>
+<p>✉️ {{ property.user.email }}</p>
+
+<a href="https://wa.me/{{ clean_phone }}" class="btn whatsapp">
+    WhatsApp Agent
+</a>
+
+<a href="/chat/{{ property.id }}/{{ property.user.id }}" class="btn primary">
+    Message Agent
+</a>
+<a href="tel:+{{ clean_phone }}" class="btn call">
+    Call
+</a>
+<a href="/agent/{{ property.user.id }}" class="btn dark">
+    View Profile
+</a>
+
+
+{% else %}
+
+<p style="color:#aaa;">No agent assigned to this property.</p>
+
+{% endif %}
+
+    </div>
+
+</div>
+
+</div>
+
+<script>
+let images = {{ property.images | tojson if property.images else '[]' }};
+let index = 0;
+const mainImage = document.getElementById("mainImage");
+
+function setImage(i){
+    index = i;
+    if (images.length > 0) {
+        mainImage.src = images[index];
+    }
+
+    document.querySelectorAll('.thumbs img').forEach((t, idx)=>{
+        t.classList.toggle('active', idx === index);
+    });
+}
+</script>
+
+</body>
+</html>

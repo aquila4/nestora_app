@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Step 3 - Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 flex items-center justify-center min-h-screen">
+
+<div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+
+  <h1 class="text-2xl font-bold mb-2">Add property details</h1>
+  <p class="text-gray-500 mb-6">Step 3 of 5</p>
+
+  <form method="POST" class="space-y-4">
+
+    <!-- TITLE -->
+    <input name="title"
+           placeholder="Title"
+           class="w-full border p-3 rounded-lg"
+           required>
+
+    <!-- BEDROOMS (DYNAMIC) -->
+    <div id="bedroomsBox">
+      <input name="bedrooms"
+             type="number"
+             placeholder="Bedrooms"
+             class="w-full border p-3 rounded-lg">
+    </div>
+
+    <!-- DESCRIPTION -->
+    <textarea name="description"
+              placeholder="Description"
+              class="w-full border p-3 rounded-lg"
+              rows="4"></textarea>
+
+    <button class="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800">
+      Continue
+    </button>
+
+  </form>
+
+</div>
+
+<!-- JS: Hide bedrooms for LAND -->
+<!-- SAFE hidden field from backend -->
+<input type="hidden" id="property_type" value="{{ session.get('listing', {}).get('property_type', '') }}">
+
+<script>
+function toggleBedrooms() {
+    let propertyType = document.getElementById("property_type").value;
+    let box = document.getElementById("bedroomsBox");
+
+    if (propertyType === "land") {
+        box.style.display = "none";
+    } else {
+        box.style.display = "block";
+    }
+}
+
+window.onload = toggleBedrooms;
+</script>
+
+</body>
+</html>

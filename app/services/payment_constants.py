@@ -1,0 +1,3 @@
+PAYMENT_VERIFICATION = "verification"
+PAYMENT_FEATURE = "feature"
+PAYMENT_SUBSCRIPTION = "subscription"

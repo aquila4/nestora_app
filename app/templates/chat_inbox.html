@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Messages - Nestora</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+        }
+
+        body {
+            margin: 0;
+            background: #f7f7f7;
+        }
+
+        .topbar {
+            background: white;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 15px;
+        }
+
+        .chat-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chat {
+            background: white;
+            padding: 15px;
+            border-radius: 14px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .content {
+            flex: 1;
+        }
+
+        .name {
+            font-weight: 600;
+        }
+
+        .message {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .empty {
+            text-align: center;
+            margin-top: 50px;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="topbar">💬 Messages</div>
+
+<div class="container">
+
+    {% if chats %}
+
+        <div class="chat-list">
+
+            {% for chat in chats %}
+
+                <a href="{{ url_for('chat.open_chat',
+        property_id=chat.property_id,
+        agent_id=chat.agent_id if chat.user_id == current_user.id else chat.user_id) }}"
+   class="chat">
+                    <!-- Avatar -->
+                    {% if chat.user_id == current_user.id %}
+                        {% set person = chat.agent %}
+                    {% else %}
+                        {% set person = chat.user %}
+                    {% endif %}
+
+                    <img class="avatar"
+                         src="{% if person.profile_image %}
+                                {% if person.profile_image.startswith('http') %}
+                                    {{ person.profile_image }}
+                                {% elif 'avatars/' in person.profile_image %}
+                                    {{ url_for('static', filename=person.profile_image) }}
+                                {% else %}
+                                    {{ url_for('static', filename='avatars/' + person.profile_image) }}
+                                {% endif %}
+                              {% else %}
+                                {{ url_for('static', filename='uploads/default-avatar.png') }}
+                              {% endif %}">
+
+                    <!-- Content -->
+                    <div class="content">
+
+                        <div class="name">
+                            {% if chat.user_id == current_user.id %}
+                                {{ chat.agent.name }}
+                            {% else %}
+                                {{ chat.user.name }}
+                            {% endif %}
+                        </div>
+
+                        <div class="message">
+                            {{ chat.last_message.text if chat.last_message else "No messages yet" }}
+                        </div>
+
+                    </div>
+
+                </a>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty">No messages yet</div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

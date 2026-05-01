@@ -1,0 +1,234 @@
+<head>
+    <meta charset="UTF-8">
+
+    <title>Review Your Listing | Nestora</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="robots" content="noindex, nofollow">
+
+    <meta name="description"
+          content="Review and confirm your property listing before publishing on Nestora.">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .image {
+            width: 50%;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            user-select: none;
+            touch-action: pan-y;
+        }
+
+        .thumbs {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            overflow-x: auto;
+        }
+
+        .thumbs img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .thumbs img:hover {
+            border: 2px solid #ff385c;
+        }
+
+        .details {
+            width: 50%;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .value {
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 22px;
+            color: #e63946;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .btn {
+            margin-top: 20px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .publish {
+            background: #ff385c;
+            color: white;
+        }
+
+        .back {
+            background: #ddd;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Review Your Listing</h1>
+
+    <div class="card">
+
+        <!-- IMAGE SECTION -->
+        <div class="image">
+
+            {% set images = data.get('images') or [] %}
+
+            {% if images %}
+
+                <img id="mainImage"
+                     class="main-image"
+                     src="{{ images[0] }}">
+
+                <div class="thumbs">
+                    {% for img in images %}
+                        <img src="{{ img }}" onclick="setImage({{ loop.index0 }})">
+                    {% endfor %}
+                </div>
+
+            {% else %}
+
+                <img class="main-image"
+                     src="{{ url_for('static', filename='uploads/default.jpg') }}">
+
+            {% endif %}
+
+        </div>
+
+        <!-- DETAILS -->
+        <div class="details">
+
+            <div class="value">
+                <span class="label">Title:</span><br>
+                {{ data.get('title') }}
+            </div>
+
+            <div class="value">
+                <span class="label">Location:</span><br>
+                {{ data.get('location') }}
+            </div>
+
+            {% if data.get('bedrooms') %}
+            <div class="value">
+                <span class="label">Bedrooms:</span><br>
+                {{ data.get('bedrooms') }}
+            </div>
+            {% endif %}
+
+            <div class="value">
+                <span class="label">Description:</span><br>
+                {{ data.get('description') }}
+            </div>
+
+            <div class="price">
+                ₦{{ data.get('price') }}
+            </div>
+
+            <form method="POST" class="actions">
+
+                <a href="{{ url_for('list_step5') }}">
+                    <button type="button" class="btn back">Back</button>
+                </a>
+
+                <button type="submit" class="btn publish">
+                    Publish Listing
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+let images = {{ (data.get('images') or []) | tojson }};
+let currentIndex = 0;
+
+const mainImage = document.getElementById("mainImage");
+
+function loadImage(index) {
+    if (!images.length) return;
+    currentIndex = index;
+    mainImage.src = images[currentIndex];
+}
+
+function setImage(index) {
+    loadImage(index);
+}
+
+function nextImage() {
+    if (!images.length) return;
+    currentIndex = (currentIndex + 1) % images.length;
+    loadImage(currentIndex);
+}
+
+function prevImage() {
+    if (!images.length) return;
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    loadImage(currentIndex);
+}
+
+// swipe support
+let startX = 0;
+
+mainImage?.addEventListener("touchstart", e => {
+    startX = e.touches[0].clientX;
+});
+
+mainImage?.addEventListener("touchend", e => {
+    let endX = e.changedTouches[0].clientX;
+    if (startX - endX > 50) nextImage();
+    else if (endX - startX > 50) prevImage();
+});
+</script>
+
+</body>
+</html>

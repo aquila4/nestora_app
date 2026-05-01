@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Dashboard - Nestora</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+        }
+
+        body {
+            margin: 0;
+            background: #f7f7f7;
+        }
+
+        .nav {
+            background: white;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 18px;
+            color: #ff385c;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #555;
+            margin-left: 15px;
+            font-size: 14px;
+        }
+
+        .container {
+            width: 92%;
+            margin: auto;
+            padding: 20px 0;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .content {
+            padding: 12px;
+        }
+
+        .title {
+            font-size: 15px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .price {
+            color: #333;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        .location {
+            font-size: 13px;
+            color: #777;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            font-size: 12px;
+            border-radius: 20px;
+            margin-top: 8px;
+        }
+
+        .featured {
+            background: #fff3cd;
+            color: #b8860b;
+        }
+
+        .normal {
+            background: #e5e7eb;
+            color: #555;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 8px;
+            text-align: center;
+            border-radius: 10px;
+            font-size: 13px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .view {
+            background: #111827;
+        }
+
+        .boost {
+            background: #10b981;
+        }
+
+        .delete {
+            background: #ef4444;
+        }
+
+        .upgrade {
+            display: inline-block;
+            background: gold;
+            color: black;
+            padding: 10px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .pro {
+            color: green;
+            font-weight: 600;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="nav">
+    <div class="logo">Nestora</div>
+
+    <div>
+        <a href="/">Home</a>
+        <a href="/list-property/step1">Post Property</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+
+    {% if current_user.subscription_plan != "pro" %}
+        <a href="/pay/subscription" class="upgrade">⭐ Upgrade to Pro</a>
+    {% else %}
+        <span class="pro">✔ Pro User</span>
+    {% endif %}
+
+    <h2>My Listings</h2>
+
+    {% if properties %}
+
+    <div class="grid">
+
+        {% for property in properties %}
+        <div class="card">
+
+            <img
+                src="{% if property.images and property.images|length > 0 %}
+                        {{ property.images[0] }}
+                     {% else %}
+                        {{ url_for('static', filename='uploads/default.jpg') }}
+                     {% endif %}"
+            >
+
+            <div class="content">
+
+                <p class="title">{{ property.title }}</p>
+                <p class="price">₦{{ property.price }}</p>
+                <p class="location">{{ property.location }}</p>
+
+                {% if property.featured %}
+                    <span class="badge featured">⭐ Featured</span>
+                {% else %}
+                    <span class="badge normal">Standard</span>
+                {% endif %}
+
+                <div class="actions">
+
+                    <a href="/property/{{ property.id }}" class="btn view">View</a>
+
+                    <a href="/pay/{{ property.id }}" class="btn boost">Boost</a>
+
+                    <a href="/delete/{{ property.id }}" class="btn delete">Delete</a>
+
+                </div>
+
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+        <p>You haven’t posted any property yet.</p>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

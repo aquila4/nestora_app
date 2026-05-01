@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{{ user.name }} - Nestora Luxury Agent</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    font-family:'Inter', sans-serif;
+    background:#0b0b0f;
+    color:#fff;
+    overflow-x:hidden;
+}
+
+/* gold glow */
+body::before,
+body::after{
+    content:"";
+    position:fixed;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    filter:blur(120px);
+    opacity:0.15;
+    z-index:-1;
+}
+
+body::before{
+    background:#d4af37;
+    top:-180px;
+    left:-180px;
+}
+
+body::after{
+    background:#4facfe;
+    bottom:-180px;
+    right:-180px;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:30px 20px;
+}
+
+/* ================= PROFILE ================= */
+.profile-card{
+    display:flex;
+    gap:25px;
+    align-items:center;
+    padding:25px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+}
+
+.profile-card img{
+    width:110px;
+    height:110px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid #d4af37;
+}
+
+h2{
+    margin:0;
+    font-size:24px;
+    font-weight:700;
+}
+
+.badge{
+    background:linear-gradient(135deg,#d4af37,#f5e6a0);
+    color:#111;
+    padding:4px 10px;
+    border-radius:999px;
+    font-size:11px;
+    margin-left:8px;
+    font-weight:700;
+}
+
+.info{
+    margin-top:6px;
+    font-size:14px;
+    color:#bbb;
+}
+
+/* buttons */
+.actions{
+    margin-top:12px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    padding:10px 14px;
+    border-radius:12px;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:600;
+    color:#111;
+}
+
+.call{background:#d4af37;}
+.whatsapp{background:#25d366; color:#fff;}
+
+/* ================= SECTION TITLE ================= */
+.section-title{
+    margin:45px 0 20px;
+    font-size:14px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:#aaa;
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.section-title::before,
+.section-title::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:linear-gradient(90deg,#d4af37,transparent);
+}
+
+/* ================= GRID ================= */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:20px;
+}
+
+/* ================= PROPERTY CARD ================= */
+.property-card{
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:18px;
+    overflow:hidden;
+    transition:0.3s ease;
+}
+
+.property-card:hover{
+    transform:translateY(-6px);
+    border-color:#d4af37;
+}
+
+.image-wrapper img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+}
+
+.badge-featured{
+    position:absolute;
+    margin:10px;
+    background:linear-gradient(135deg,#d4af37,#f5e6a0);
+    color:#111;
+    padding:5px 10px;
+    font-size:11px;
+    border-radius:999px;
+    font-weight:700;
+}
+
+/* content */
+.content{
+    padding:15px;
+}
+
+.title{
+    font-size:16px;
+    font-weight:700;
+}
+
+.meta{
+    font-size:13px;
+    color:#aaa;
+    margin-top:5px;
+}
+
+.price{
+    font-size:20px;
+    font-weight:700;
+    color:#d4af37;
+    margin:10px 0;
+}
+
+/* tags */
+.tag{
+    display:inline-block;
+    font-size:11px;
+    padding:5px 10px;
+    border-radius:999px;
+    background:rgba(255,255,255,0.1);
+    color:#ccc;
+}
+
+.tag.featured{
+    background:linear-gradient(135deg,#d4af37,#f5e6a0);
+    color:#111;
+}
+
+/* button */
+.view-btn{
+    display:block;
+    margin-top:12px;
+    padding:12px;
+    text-align:center;
+    border-radius:12px;
+    background:#d4af37;
+    color:#111;
+    font-weight:700;
+    text-decoration:none;
+    transition:0.2s;
+}
+
+.view-btn:hover{
+    background:#f5e6a0;
+}
+
+/* mobile */
+@media(max-width:700px){
+    .profile-card{
+        flex-direction:column;
+        text-align:center;
+    }
+}
+
+.edit-btn{
+    display:inline-block;
+    margin-top:15px;
+    padding:10px 16px;
+    border-radius:10px;
+    background:#4facfe;
+    color:#fff;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.edit-btn:hover{
+    background:#2f8ae6;
+}
+
+.profile-card a img {
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.profile-card a img:hover {
+    transform: scale(1.05);
+    opacity: 0.85;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- ================= PROFILE ================= -->
+
+<div class="profile-card">
+
+    <!-- PROFILE IMAGE -->
+    <div>
+
+        <form id="uploadForm"
+              action="{{ url_for('property.update_profile') }}"
+              method="POST"
+              enctype="multipart/form-data">
+
+            <input type="file"
+                   name="profile_image"
+                   id="fileInput"
+                   hidden
+                   accept="image/*">
+
+            {% set img = user.profile_image %}
+
+            <img
+                id="profilePreview"
+                {% if current_user.is_authenticated and current_user.id == user.id %}
+                    onclick="document.getElementById('fileInput').click()"
+                    style="cursor:pointer;"
+                {% endif %}
+                src="{% if img %}
+                        {% if img.startswith('http') %}
+                            {{ img }}
+                        {% elif 'avatars/' in img %}
+                            {{ url_for('static', filename=img) }}
+                        {% else %}
+                            {{ url_for('static', filename='avatars/' + img) }}
+                        {% endif %}
+                     {% else %}
+                        {{ url_for('static', filename='uploads/default-avatar.png') }}
+                     {% endif %}"
+            >
+
+            {% if current_user.is_authenticated and current_user.id == user.id %}
+                <button type="submit" class="edit-btn" style="margin-top:10px;">
+                    Update Photo
+                </button>
+            {% endif %}
+
+        </form>
+
+    </div>
+
+    <!-- PROFILE INFO -->
+    <div>
+
+        <h2>
+            {{ user.name }}
+
+            {% if user.verification_status == "verified" %}
+                <span class="badge">✔ Verified Host</span>
+            {% elif user.verification_status == "pending" %}
+                <span class="badge">⏳ Pending</span>
+            {% endif %}
+        </h2>
+
+        <div class="info">📍 {{ user.location or "No location set" }}</div>
+        <div class="info">💼 {{ user.experience or "No experience info" }}</div>
+        <div class="info">✉️ {{ user.email }}</div>
+
+        {% if user.phone %}
+
+            {% set phone = user.phone
+                |replace('+','')
+                |replace(' ','')
+                |replace('-','')
+                |replace('(','')
+                |replace(')','')
+            %}
+
+            {% if phone.startswith('234234') %}
+                {% set phone = phone[3:] %}
+            {% elif phone.startswith('0') %}
+                {% set phone = '234' + phone[1:] %}
+            {% elif not phone.startswith('234') %}
+                {% set phone = '234' + phone %}
+            {% endif %}
+
+            <div class="actions" style="margin-top:10px; display:flex; gap:10px; align-items:center;">
+
+                <a href="tel:+{{ phone }}" class="btn call">Call</a>
+
+                <div style="font-size:14px; color:#444; font-weight:500;">
+                    📞 +{{ phone }}
+                </div>
+
+                <a href="https://wa.me/{{ phone }}" class="btn whatsapp">
+                    WhatsApp
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</div>
+<!-- ================= AGENT PROPERTIES ================= -->
+<div class="container">
+
+    <div class="section-title">
+        Properties by {{ user.name }}
+    </div>
+
+    {% if properties %}
+
+        <div class="grid">
+
+            {% for property in properties %}
+
+                <div class="property-card">
+
+                    <!-- IMAGE -->
+                    <div class="image-wrapper" style="position:relative;">
+                        
+                        {% if property.featured %}
+                            <div class="badge-featured">Featured</div>
+                        {% endif %}
+
+                        <img src="{{ property.images[0] if property.images else url_for('static', filename='placeholder.jpg') }}">
+                    </div>
+
+                    <!-- CONTENT -->
+                    <div class="content">
+
+                        <div class="title">
+                            {{ property.title }}
+                        </div>
+
+                        <div class="meta">
+                            📍 {{ property.location }}
+                        </div>
+
+                        <div class="price">
+                            ₦{{ "{:,.0f}".format(property.price|float) }}
+                        </div>
+
+                        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
+
+                            {% if property.property_type %}
+                                <span class="tag">{{ property.property_type }}</span>
+                            {% endif %}
+
+                            {% if property.bedrooms %}
+                                <span class="tag">{{ property.bedrooms }} Beds</span>
+                            {% endif %}
+
+                        </div>
+
+                        <a class="view-btn"
+                           href="{{ url_for('property.property_detail', id=property.id) }}">
+                            View Property
+                        </a>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div style="text-align:center; padding:40px; color:#888;">
+            No properties listed yet.
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+<script>
+const fileInput = document.getElementById("fileInput");
+const preview = document.getElementById("profilePreview");
+
+fileInput.addEventListener("change", function(){
+    const file = this.files[0];
+    if(file){
+        preview.src = URL.createObjectURL(file);
+    }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 🔥 TITLE -->
+<title>Nestora | Find Homes, Rent & Buy Properties in Nigeria</title>
+
+<!-- 🔥 BASIC SEO -->
+<meta name="description" content="Nestora is Nigeria’s trusted real estate marketplace. Find verified houses for rent, buy land, and list properties in Lagos, Abuja, and across Nigeria.">
+<meta name="keywords" content="Nestora, real estate Nigeria, rent house Lagos, buy land Nigeria, apartments Lagos, property marketplace Nigeria">
+<meta name="author" content="Nestora">
+<meta name="robots" content="index, follow">
+
+<!-- 🔥 CANONICAL (VERY IMPORTANT) -->
+<link rel="canonical" href="https://www.nestora.com/home">
+
+<!-- 🔥 FAVICON (FIXED PROPERLY) -->
+<link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="/static/favicon.ico">
+
+<!-- 🔥 OPEN GRAPH (Facebook / WhatsApp) -->
+<meta property="og:title" content="Nestora - Find Your Next Home in Nigeria">
+<meta property="og:description" content="Buy, rent, and list verified properties easily on Nestora.">
+<meta property="og:image" content="https://www.nestora.com/static/home.png">
+<meta property="og:url" content="https://www.nestora.com/home">
+<meta property="og:type" content="website">
+
+<!-- 🔥 TWITTER CARD -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Nestora - Real Estate Marketplace">
+<meta name="twitter:description" content="Find verified homes and land in Nigeria.">
+<meta name="twitter:image" content="https://www.nestora.com/static/home.png">
+
+<!-- 🔥 THEME COLOR (mobile browser UI) -->
+<meta name="theme-color" content="#ff385c">
+
+<!-- 🔥 STYLES -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+
+<style>
+/* =========================
+   GLOBAL
+========================= */
+/* =========================
+   GLOBAL
+========================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+}
+
+html, body {
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #ffffff; /* FIX: white makes glow visible */
+    color: #222;
+}
+
+/* =========================
+   GLASS NAVBAR
+========================= */
+.glass {
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(10px);
+}
+
+/* =========================
+   HERO BACKGROUND (AIRBNB STYLE FIXED)
+========================= */
+.hero-bg {
+    position: relative;
+    overflow: hidden;
+    min-height: 70vh;
+    background: transparent;
+    padding: 30px 0;
+}
+
+/* glow circles */
+.hero-bg::before,
+.hero-bg::after {
+    content: "";
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.25;
+    z-index: 0;
+}
+
+/* red glow */
+.hero-bg::before {
+    background: #ff385c;
+    top: -180px;
+    left: -180px;
+    animation: float1 10s ease-in-out infinite;
+}
+
+/* blue glow */
+.hero-bg::after {
+    background: #4facfe;
+    bottom: -180px;
+    right: -180px;
+    animation: float2 12s ease-in-out infinite;
+}
+
+/* content above glow */
+.hero-bg section {
+    position: relative;
+    z-index: 2;
+}
+
+/* animations */
+@keyframes float1 {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(40px, 30px); }
+    100% { transform: translate(0, 0); }
+}
+
+@keyframes float2 {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(-40px, -30px); }
+    100% { transform: translate(0, 0); }
+}
+
+/* make hero compact */
+.hero-bg .max-w-6xl {
+    min-height: 50vh;
+}
+/* =========================
+   WHATSAPP FLOAT
+========================= */
+.whatsapp-float {
+    position: fixed;
+    width: 55px;
+    height: 55px;
+    bottom: 20px;
+    right: 20px;
+    background: #25D366;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    z-index: 1000;
+    transition: 0.3s ease;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+    background: #1ebe5d;
+}
+
+/* =========================
+   FOOTER
+========================= */
+.footer {
+    background: #111;
+    color: #fff;
+    margin-top: 50px;
+    padding: 40px 20px 20px;
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 25px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.footer-col h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.footer-col h4 {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #ddd;
+}
+
+.footer-col p {
+    font-size: 13px;
+    color: #aaa;
+    line-height: 1.5;
+}
+
+.footer-col a {
+    display: block;
+    color: #bbb;
+    text-decoration: none;
+    font-size: 13px;
+    margin-bottom: 6px;
+    transition: 0.2s;
+}
+
+.footer-col a:hover {
+    color: #fff;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 30px;
+    border-top: 1px solid #222;
+    padding-top: 15px;
+    font-size: 12px;
+    color: #777;
+}
+</style>
+</head>
+
+<body class="bg-gradient-to-b from-white to-gray-100 text-gray-800">
+
+<!-- ================= NAVBAR ================= -->
+<header class="bg-white shadow-md sticky top-0 z-50">
+
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+
+    <!-- LOGO -->
+    <div class="flex items-center gap-2">
+      <img src="{{ url_for('static', filename='logo.png') }}"
+           class="h-8 w-auto" alt="Nestora">
+
+      <span class="font-bold text-lg text-black">Nestora</span>
+    </div>
+
+<!-- ================= DESKTOP MENU ================= -->
+<!-- ================= DESKTOP MENU ================= -->
+<nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+
+  {% if current_user.is_authenticated %}
+
+    <a href="{{ url_for('property.agent_profile', user_id=current_user.id) }}"
+       class="text-gray-700 hover:text-red-500 transition">
+        👋 Hi, {{ current_user.name }}
+    </a>
+
+    <a href="{{ url_for('chat.inbox') }}" class="hover:text-red-500">
+        💬 Inbox
+    </a>
+
+  {% endif %}
+
+  <!-- MAIN LINKS -->
+  <a href="{{ url_for('property.home') }}" class="hover:text-red-500">
+    Explore Property
+  </a>
+
+  <a href="{{ url_for('property.landing') }}" class="hover:text-red-500">
+    Home
+  </a>
+
+  {% if current_user.is_authenticated %}
+
+    <!-- DASHBOARD (ADMIN OR USER) -->
+    {% if current_user.is_admin %}
+      <a href="{{ url_for('admin.admin_dashboard') }}" class="hover:text-red-500">
+        Dashboard
+      </a>
+    {% else %}
+      <a href="{{ url_for('auth.dashboard') }}" class="hover:text-red-500">
+        Dashboard
+      </a>
+    {% endif %}
+
+    {% if current_user.is_admin %}
+      <a href="{{ url_for('admin.admin_dashboard') }}"
+         class="text-blue-600 font-semibold hover:underline">
+        Admin Panel
+      </a>
+    {% endif %}
+
+    <a href="{{ url_for('property.my_properties') }}" class="hover:text-red-500">
+      My Properties
+    </a>
+
+    <a href="{{ url_for('auth.logout') }}"
+       class="bg-gray-900 text-white px-4 py-2 rounded-full hover:bg-red-500 transition">
+       Logout
+    </a>
+
+  {% else %}
+
+    <a href="{{ url_for('auth.login') }}" class="hover:text-red-500">
+      Login
+    </a>
+
+    <a href="{{ url_for('auth.register') }}"
+       class="bg-black text-white px-4 py-2 rounded-full hover:bg-red-600 transition">
+       Register
+    </a>
+
+  {% endif %}
+
+  <a href="{{ url_for('property.list_step1') }}"
+     class="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition">
+     List Property
+  </a>
+
+</nav>
+
+<!-- ================= MOBILE BUTTON ================= -->
+<button id="menuBtn" class="md:hidden text-2xl">
+  ☰
+</button>
+
+</div>
+</header>
+
+<!-- ================= OVERLAY ================= -->
+<div id="overlay"
+     class="fixed inset-0 bg-black/50 hidden z-40"></div>
+
+<!-- ================= MOBILE MENU ================= -->
+<div id="mobileMenu"
+     class="fixed top-0 left-0 w-80 h-full bg-white shadow-2xl p-5 transform -translate-x-full transition-transform duration-300 z-50 flex flex-col">
+
+    <!-- CLOSE -->
+    <button id="closeMenu" class="text-2xl mb-4">✕</button>
+
+    <!-- PROFILE -->
+    {% if current_user.is_authenticated %}
+    <a href="{{ url_for('property.agent_profile', user_id=current_user.id) }}"
+       class="flex items-center gap-3 bg-gray-100 p-3 rounded-xl mb-6">
+
+        <div class="w-10 h-10 bg-red-500 text-white rounded-full flex items-center justify-center font-bold">
+            {{ current_user.name[0] }}
+        </div>
+
+        <div>
+            <div class="text-sm font-semibold">
+                {{ current_user.name }}
+            </div>
+            <div class="text-xs text-gray-500">
+                View profile
+            </div>
+        </div>
+
+        <span class="text-gray-400">›</span>
+    </a>
+    {% endif %}
+
+    <!-- LINKS -->
+    <a href="{{ url_for('property.home') }}" class="block py-3 border-b font-semibold">
+        Explore Properties
+    </a>
+
+    <a href="{{ url_for('property.landing') }}" class="block py-3 border-b">
+        Home
+    </a>
+
+    {% if current_user.is_authenticated %}
+
+        <!-- DASHBOARD (ADMIN OR USER) -->
+        {% if current_user.is_admin %}
+            <a href="{{ url_for('admin.admin_dashboard') }}" class="block py-3 border-b">
+                Dashboard
+            </a>
+        {% else %}
+            <a href="{{ url_for('auth.dashboard') }}" class="block py-3 border-b">
+                Dashboard
+            </a>
+        {% endif %}
+
+        <a href="{{ url_for('chat.inbox') }}" class="block py-3 border-b">
+            💬 Inbox
+        </a>
+
+        {% if current_user.is_admin %}
+            <a href="{{ url_for('admin.admin_dashboard') }}"
+               class="block py-3 border-b text-blue-600 font-semibold">
+                Admin Panel
+            </a>
+        {% endif %}
+
+        <a href="{{ url_for('property.my_properties') }}"
+           class="block py-3 border-b">
+            My Properties
+        </a>
+
+        <a href="{{ url_for('auth.logout') }}"
+           class="block mt-4 text-center bg-red-500 text-white py-3 rounded-lg">
+           Logout
+        </a>
+
+    {% else %}
+
+        <a href="{{ url_for('auth.login') }}" class="block py-3 border-b">
+            Login
+        </a>
+
+        <a href="{{ url_for('auth.register') }}" class="block py-3 border-b">
+            Register
+        </a>
+
+    {% endif %}
+
+    <a href="{{ url_for('property.list_step1') }}"
+       class="block mt-4 text-center bg-black text-white py-3 rounded-lg">
+       List Property
+    </a>
+
+</div>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+const menuBtn = document.getElementById("menuBtn");
+const mobileMenu = document.getElementById("mobileMenu");
+const overlay = document.getElementById("overlay");
+const closeMenu = document.getElementById("closeMenu");
+
+function openMenu() {
+    mobileMenu.classList.remove("-translate-x-full");
+    overlay.classList.remove("hidden");
+}
+
+function closeMenuFn() {
+    mobileMenu.classList.add("-translate-x-full");
+    overlay.classList.add("hidden");
+}
+
+menuBtn.addEventListener("click", openMenu);
+closeMenu.addEventListener("click", closeMenuFn);
+overlay.addEventListener("click", closeMenuFn);
+</script>
+
+<!-- ================= HERO ================= -->
+<div class="hero-bg">
+
+<section class="py-6 bg-transparent">
+
+<div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-6 px-6 min-h-[55vh]">
+
+    <div class="flex-1 text-center md:text-left">
+
+        <h1 class="text-3xl font-bold mb-2">
+            Find your dream home
+        </h1>
+
+        <p class="text-gray-600 mb-4 text-sm">
+            Buy, rent & invest across Nigeria
+        </p>
+
+        <form class="flex bg-gray-100 rounded-xl overflow-hidden">
+
+            <input class="flex-1 px-4 py-3 bg-transparent outline-none"
+                   placeholder="Search location...">
+
+            <button class="bg-red-500 px-5 text-white">
+                Search
+            </button>
+
+        </form>
+
+    </div>
+
+    <div class="flex-1 flex justify-center">
+        <img src="{{ url_for('static', filename='home.png') }}"
+             class="w-[220px] md:w-[280px] rounded-xl shadow-md">
+    </div>
+
+</div>
+
+</section>
+
+</div>
+<!-- ================= FILTER ================= -->
+<section class="bg-white shadow sticky top-16 z-30">
+
+<form class="max-w-7xl mx-auto p-4 grid grid-cols-2 md:grid-cols-5 gap-3">
+
+<input name="city" placeholder="City" class="border p-2 rounded">
+
+<select name="bedrooms" class="border p-2 rounded">
+<option value="">Bedrooms</option>
+<option>1</option>
+<option>2</option>
+<option>3+</option>
+</select>
+
+<input name="min_price" placeholder="Min Price" class="border p-2 rounded">
+<input name="max_price" placeholder="Max Price" class="border p-2 rounded">
+
+<button class="bg-black text-white rounded px-4">Filter</button>
+
+</form>
+</section>
+
+<!-- ================= FEATURED ================= -->
+<section class="max-w-7xl mx-auto px-6 mt-16">
+
+<h2 class="text-2xl font-bold mb-6">🔥 Featured Homes</h2>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+{% for property in properties if property.featured %}
+
+<div class="bg-white rounded-2xl shadow hover:shadow-xl transition overflow-hidden">
+
+    <img src="{{ property.images[0] if property.images else url_for('static', filename='placeholder.jpg') }}"
+         class="h-48 w-full object-cover">
+
+    <div class="p-4">
+
+        <div class="flex justify-between items-center">
+            <h3 class="font-semibold">{{ property.title }}</h3>
+            <span class="text-xs bg-red-500 text-white px-2 py-1 rounded">Featured</span>
+        </div>
+
+        <p class="text-sm text-gray-500">📍 {{ property.location }}</p>
+
+        <p class="font-bold mt-2 text-lg">₦{{ property.price }}</p>
+
+        <a href="/property/{{ property.id }}"
+           class="block mt-3 text-center bg-black text-white py-2 rounded-lg text-sm">
+           View
+        </a>
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+</div>
+</section>
+
+<!-- ================= RECOMMENDED ================= -->
+{% if recommended %}
+<section class="max-w-7xl mx-auto px-6 mt-16">
+
+<h2 class="text-2xl font-bold mb-6">✨ Recommended</h2>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+{% for property in recommended %}
+
+<div class="bg-white rounded-2xl shadow hover:shadow-xl transition overflow-hidden">
+
+    <img src="{{ property.images[0] if property.images else url_for('static', filename='placeholder.jpg') }}"
+         class="h-48 w-full object-cover">
+
+    <div class="p-4">
+        <h3 class="font-semibold">{{ property.title }}</h3>
+        <p class="text-sm text-gray-500">📍 {{ property.location }}</p>
+        <p class="font-bold mt-2">₦{{ property.price }}</p>
+
+        <a href="/property/{{ property.id }}"
+           class="block mt-3 text-center bg-black text-white py-2 rounded-lg text-sm">
+           View
+        </a>
+    </div>
+
+
+    
+</div>
+
+{% endfor %}
+
+</div>
+</section>
+{% endif %}
+
+<!-- ================= ALL ================= -->
+<section class="max-w-7xl mx-auto px-6 mt-16">
+
+<h2 class="text-2xl font-bold mb-6">🏠 Explore Homes</h2>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+{% for property in properties %}
+
+<div class="bg-white rounded-2xl shadow hover:shadow-xl transition overflow-hidden">
+
+    <img src="{{ property.images[0] if property.images else url_for('static', filename='placeholder.jpg') }}"
+         class="h-48 w-full object-cover">
+
+    <div class="p-4">
+
+        <p class="text-sm text-gray-500">
+    📍 {{ property.location }} • 🛏 {{ property.bedrooms or 0 }} bedroom
+</p>
+
+<p class="font-bold mt-2 text-lg">
+    ₦{{ "{:,}".format(property.price|int) }}
+</p>
+
+  
+
+        {% if property.approved %}
+            <span class="text-green-600 text-xs">✔ Approved</span>
+        {% else %}
+            <span class="text-orange-500 text-xs">Pending</span>
+        {% endif %}
+
+        <a href="/property/{{ property.id }}"
+           class="block mt-3 text-center bg-black text-white py-2 rounded-lg text-sm">
+           View
+        </a>
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+</div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="bg-black text-white text-center py-16 mt-16">
+
+<h2 class="text-3xl font-bold">List your property today</h2>
+<p class="text-gray-400 mt-2">Reach thousands instantly</p>
+
+<a href="/list-property/step1"
+   class="inline-block mt-6 px-6 py-3 bg-red-500 rounded-full">
+   Get Started
+</a>
+
+</section>
+
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <!-- BRAND -->
+        <div class="footer-col">
+            <h3>Nestora</h3>
+            <p>
+                Find, list, and boost properties easily. Simple, fast, and trusted real estate platform.
+            </p>
+        </div>
+
+        <!-- COMPANY -->
+        <div class="footer-col">
+            <h4>Company</h4>
+
+            <a href="{{ url_for('property.landing') }}">Home</a>
+
+            <!-- FIX: route not defined in property_bp -->
+            <a href="/list-property/step1">Post Property</a>
+
+            <a href="/my-properties">My Listings</a>
+        </div>
+
+        <!-- SUPPORT -->
+        <div class="footer-col">
+            <h4>Support</h4>
+
+            <a href="{{ url_for('property.help_center') }}">Help Center</a>
+
+            <a href="{{ url_for('property.contact') }}">Contact Us</a>
+
+            <a href="{{ url_for('property.privacy') }}">Privacy Policy</a>
+        </div>
+
+        <!-- SOCIAL -->
+        <div class="footer-col">
+            <h4>Connect</h4>
+
+            <a href="https://wa.me/2349018907979" target="_blank">
+                WhatsApp
+            </a>
+
+            <a href="https://www.instagram.com/nestora_01?igsh=MWZ2dnp3M2d5N3Fyaw%3D%3D&utm_source=qr"
+               target="_blank">
+                Instagram
+            </a>
+
+            <a href="https://x.com/nestora_1" target="_blank">
+                Twitter
+            </a>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom" style="text-align:center;">
+        <p>© 2026 Nestora. All rights reserved.</p>
+
+        <p style="font-size:12px; color:#888; margin-top:6px;">
+            A platform built by <strong>Nestora Technology</strong>
+        </p>
+    </div>
+
+</footer>
+
+
+<!-- ================= SCRIPT ================= -->
+<script>
+const menuBtn = document.getElementById("menuBtn");
+const mobileMenu = document.getElementById("mobileMenu");
+const overlay = document.getElementById("overlay");
+const closeMenu = document.getElementById("closeMenu");
+
+menuBtn.onclick = () => {
+    mobileMenu.classList.remove("-translate-x-full");
+    overlay.classList.remove("hidden");
+};
+
+closeMenu.onclick = closeAll;
+overlay.onclick = closeAll;
+
+function closeAll() {
+    mobileMenu.classList.add("-translate-x-full");
+    overlay.classList.add("hidden");
+}
+</script>
+<a href="https://wa.me/2349018907979" class="whatsapp-float" target="_blank">
+    💬
+</a>
+</body>
+</html>

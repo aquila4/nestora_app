@@ -1,0 +1,1052 @@
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Nestora | Buy, Rent & List Properties in Nigeria</title>
+
+<!-- 🔥 SEO -->
+<meta name="description" content="Nestora is Nigeria’s trusted real estate platform to buy, rent, and list properties. Discover verified homes, apartments, and land in Lagos, Abuja, and across Nigeria.">
+
+<meta name="keywords" content="real estate Nigeria, buy house Lagos, rent apartment Nigeria, land for sale Nigeria, property marketplace Nigeria">
+
+<meta name="author" content="Nestora">
+<meta name="robots" content="index, follow">
+
+<!-- 🔥 CANONICAL -->
+<link rel="canonical" href="https://www.nestora.com/">
+
+<!-- 🔥 FAVICON -->
+<link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+
+<!-- 🔥 OPEN GRAPH (WhatsApp / Facebook) -->
+<meta property="og:title" content="Nestora - Real Estate Platform in Nigeria">
+<meta property="og:description" content="Buy, rent, and list properties easily across Nigeria. Verified listings on Nestora.">
+<meta property="og:image" content="https://www.nestora.com/static/home.png">
+<meta property="og:url" content="https://www.nestora.com/">
+<meta property="og:type" content="website">
+
+<!-- 🔥 TWITTER -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Nestora - Real Estate Marketplace">
+<meta name="twitter:description" content="Find verified homes and land in Nigeria.">
+<meta name="twitter:image" content="https://www.nestora.com/static/home.png">
+
+<!-- 🔥 THEME COLOR -->
+<meta name="theme-color" content="#ff385c">
+
+<!-- 🔥 GOOGLE ANALYTICS (FIXED) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GA_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GA_ID');
+</script>
+
+
+
+<style>
+
+/* =========================
+   GLOBAL
+========================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+}
+
+body {
+    background: #f7f7f7;
+    color: #222;
+    overflow-x: hidden;
+}
+
+html, body {
+    overflow-x: hidden;
+}
+
+.hero,
+.features-section,
+.features-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+@media (max-width: 900px) {
+    .hero,
+    .features-section,
+    .features-wrapper {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+/* =========================
+   NAVBAR
+========================= */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 6%;
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 700;
+    color: #ff385c;
+}
+
+.nav-links a {
+    margin-left: 18px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    color: #ff385c;
+}
+
+/* =========================
+   HERO SECTION
+========================= */
+.hero {
+    height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 20px;
+    background: linear-gradient(135deg, #fff, #f3f4f6);
+    position: relative;
+    overflow: hidden;
+}
+
+/* floating blobs */
+.hero::before,
+.hero::after {
+    content: "";
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.4;
+}
+
+.hero::before {
+    background: #ff385c;
+    top: -150px;
+    left: -150px;
+}
+
+.hero::after {
+    background: #4facfe;
+    bottom: -150px;
+    right: -150px;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+}
+
+.hero h1 {
+    font-size: 44px;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+.btn {
+    background: #ff385c;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    margin: 5px;
+    display: inline-block;
+}
+
+/* =========================
+   SEARCH BAR
+========================= */
+.search-bar {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.search-bar input {
+    width: 70%;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    outline: none;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+/* =========================
+   FEATURES
+========================= */
+.section {
+    padding: 60px 6%;
+}
+
+.section-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+.feature-card {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+    transition: 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-card .icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.blue { border-top: 4px solid #4facfe; }
+.green { border-top: 4px solid #43e97b; }
+.pink { border-top: 4px solid #ff6b81; }
+
+/* =========================
+   HOW IT WORKS
+========================= */
+.steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 18px;
+}
+
+.step {
+    padding: 20px;
+    border-radius: 16px;
+    color: white;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.step .icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.step p {
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+.step.blue { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+.step.green { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+.step.orange { background: linear-gradient(135deg, #f7971e, #ffd200); }
+.step.purple { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+
+/* =========================
+   PROPERTIES GRID
+========================= */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+}
+
+.card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 15px;
+}
+
+/* =========================
+   WHATSAPP BUTTON
+========================= */
+.whatsapp {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #25D366;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 26px;
+    color: white;
+    text-decoration: none;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.hero {
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    padding: 0 6%;
+    position: relative;
+    overflow: hidden;
+
+    /* RIGHT SIDE IMAGE */
+    background: 
+        linear-gradient(to right, white 45%, rgba(255,255,255,0.1)),
+        url("https://images.unsplash.com/photo-1511707171634-5f897ff02aa9");
+
+    background-size: cover;
+    background-position: right center;
+    background-repeat: no-repeat;
+}
+
+/* TEXT SIDE */
+.hero-content {
+    max-width: 520px;
+    z-index: 2;
+}
+
+.hero-content h1 {
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+.hero-content p {
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* BUTTONS */
+.btn {
+    background: #ff385c;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.btn.secondary {
+    background: #333;
+}
+
+/* SEARCH */
+.search-bar {
+    margin-top: 20px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+/* MOBILE */
+@media (max-width: 900px) {
+    .hero {
+        background-position: center;
+        background:
+            linear-gradient(to bottom, white 30%, rgba(255,255,255,0.8)),
+            url("https://images.unsplash.com/photo-1511707171634-5f897ff02aa9");
+
+        padding: 60px 20px;
+        height: auto;
+        text-align: center;
+    }
+
+    .hero-content {
+        margin: auto;
+    }
+}
+
+/* =========================
+   HERO BASE
+========================= */
+.hero {
+    height: 95vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* =========================
+   ANIMATED BACKGROUND
+========================= */
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(270deg, #ff385c, #ff7a59, #4facfe, #43e97b);
+    background-size: 800% 800%;
+    animation: gradientMove 18s ease infinite;
+    z-index: 0;
+    opacity: 0.08;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* =========================
+   CONTENT
+========================= */
+.hero-content {
+    max-width: 520px;
+    z-index: 2;
+}
+
+.hero-content h1 {
+    font-size: 46px;
+    margin-bottom: 15px;
+}
+
+.hero-content p {
+    color: #555;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+/* BUTTONS */
+.hero-buttons {
+    margin-bottom: 20px;
+}
+
+.btn {
+    background: #ff385c;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 12px;
+    text-decoration: none;
+    margin-right: 10px;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255,56,92,0.3);
+}
+
+.btn.secondary {
+    background: rgba(0,0,0,0.8);
+}
+
+/* SEARCH */
+.search-bar input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+    border: none;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* =========================
+   FLOATING PHONE
+========================= */
+.hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+
+/* PHONE FRAME */
+.phone {
+    width: 260px;
+    height: 520px;
+    border-radius: 40px;
+    overflow: hidden;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.25);
+    transform: rotate(6deg);
+    animation: floatPhone 4s ease-in-out infinite;
+}
+
+/* PHONE IMAGE */
+.phone img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* FLOAT ANIMATION */
+@keyframes floatPhone {
+    0% { transform: translateY(0px) rotate(6deg); }
+    50% { transform: translateY(-15px) rotate(4deg); }
+    100% { transform: translateY(0px) rotate(6deg); }
+}
+
+/* GLOW BEHIND PHONE */
+.hero-image::before {
+    content: "";
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, #ff385c, transparent 70%);
+    filter: blur(80px);
+    z-index: -1;
+}
+
+
+/* LOGO IMAGE */
+.logo img {
+    height: 40px;
+    width: auto;
+}
+
+/* NAV LINKS */
+.nav-links {
+    display: flex;
+    gap: 18px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+/* MOBILE ICON */
+.menu-icon {
+    display: none;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+/* =========================
+   MOBILE MENU
+========================= */
+@media (max-width: 900px) {
+
+    .menu-icon {
+        display: block;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 70px;
+        right: 6%;
+        background: white;
+        flex-direction: column;
+        width: 200px;
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        display: none;
+    }
+
+    .nav-links.show {
+        display: flex;
+    }
+}
+/* =========================
+   FADE-IN ANIMATION
+========================= */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 1s ease forwards;
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 900px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        height: auto;
+        padding: 60px 20px;
+    }
+
+    .hero-image {
+        margin-top: 40px;
+    }
+
+    .phone {
+        width: 200px;
+        height: 400px;
+    }
+}
+
+/* =========================
+   FOOTER
+========================= */
+.footer {
+    background: #111;
+    color: #aaa;
+    padding: 50px 6%;
+    margin-top: 60px;
+}
+
+.footer h3 {
+    color: white;
+    margin-bottom: 10px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.footer a {
+    display: block;
+    color: #aaa;
+    text-decoration: none;
+    margin: 6px 0;
+}
+
+.footer a:hover {
+    color: white;
+}
+
+.footer {
+    background: #111;
+    color: #eee;
+    padding: 60px 8% 20px;
+    margin-top: 60px;
+    font-family: Arial;
+}
+
+/* GRID */
+.footer-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 30px;
+}
+
+/* BRAND */
+.footer-brand h2 {
+    margin-bottom: 10px;
+}
+
+.footer-brand p {
+    color: #aaa;
+}
+
+/* SOCIAL ICONS */
+.socials {
+    margin-top: 15px;
+    display: flex;
+    gap: 12px;
+}
+
+.socials a {
+    background: #222;
+    padding: 10px;
+    border-radius: 50%;
+    text-decoration: none;
+    color: white;
+    transition: 0.3s;
+}
+
+.socials a:hover {
+    background: #ff5a5f;
+    transform: scale(1.1);
+}
+
+/* SECTIONS */
+.footer-section h3 {
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: 0.3s;
+}
+
+.footer-section h3:hover {
+    color: #ff5a5f;
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.footer-links a {
+    color: #aaa;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.footer-links a:hover {
+    color: #fff;
+    padding-left: 5px;
+}
+
+/* BOTTOM */
+.footer-bottom {
+    text-align: center;
+    margin-top: 40px;
+    color: #777;
+    font-size: 13px;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-links {
+        display: none;
+    }
+
+    .footer-section.active .footer-links {
+        display: flex;
+    }
+}
+.features-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+/* LEFT SIDE */
+.features-left {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* RIGHT IMAGE */
+.features-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* FEMALE AGENT IMAGE */
+.agent-image {
+    width: 100%;
+    max-width: 380px;
+    border-radius: 20px;
+    object-fit: cover;
+
+    /* Airbnb-style soft shadow */
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+
+    /* smooth floating effect */
+    animation: float 4s ease-in-out infinite;
+}
+
+/* FLOAT ANIMATION */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+    .features-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .agent-image {
+        max-width: 280px;
+    }
+}
+
+.features-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+    padding: 60px 8%;
+}
+
+/* LEFT SIDE */
+.features-left {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* RIGHT IMAGE SIDE */
+.features-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 300px;
+}
+
+/* BIG IMAGE (KEY PART) */
+.agent-image {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    transform: scale(1.05);
+}
+
+
+
+</style>
+</head>
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Nestora | Buy, Rent & List Properties in Nigeria</title>
+
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+
+<style>
+/* (your full CSS untouched) */
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+    <!-- LOGO -->
+    <div class="logo">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Nestora">
+        <span>Nestora</span>
+    </div>
+
+ <!-- MENU -->
+<div class="nav-links" id="navLinks">
+
+    <a href="{{ url_for('property.landing') }}">Home</a>
+
+    <a href="{{ url_for('property.home') }}">Explore properties</a>
+
+    <a href="{{ url_for('property.how_it_works') }}">How it works</a>
+    <a href="{{ url_for('property.about') }}">About</a>
+
+    {% if current_user.is_authenticated %}
+        <a href="{{ url_for('property.my_properties') }}">My Properties</a>
+        <a href="{{ url_for('auth.logout') }}">Logout</a>
+    {% else %}
+        <a href="{{ url_for('auth.login') }}">Login</a>
+        <a href="{{ url_for('auth.register') }}">Become an Agent</a>
+    {% endif %}
+
+</div>
+
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+
+</div>
+
+<div class="hero">
+
+    <div class="hero-content fade-in">
+        <h1>Your Property. More Exposure. Better Deals.</h1>
+
+        <p>
+            Find, list, and rent properties faster with verified listings 
+            and smart visibility tools.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a class="btn" href="{{ url_for('auth.register') }}">
+                Join Early Access
+            </a>
+
+            <a class="btn secondary" href="{{ url_for('property.home') }}#properties">
+                Explore Properties
+            </a>
+
+        </div>
+
+        <div class="search-bar">
+            <input type="text" placeholder="Search location, property type or keyword...">
+        </div>
+    </div>
+
+<div class="hero-image">
+    <div class="family-card">
+       <img src="{{ url_for('static', filename='back.png') }}">
+    </div>
+</div>
+
+</div>
+
+<!-- FEATURES -->
+<div class="section features-section">
+    <div class="features-left">
+        <div class="section-title">Why choose Nestora?</div>
+
+        <div class="features">
+            <div class="feature-card blue">
+                <div class="icon">⚡</div>
+                <h3>Easy Listing</h3>
+                <p>List property in seconds</p>
+            </div>
+
+            <div class="feature-card green">
+                <div class="icon">✔</div>
+                <h3>Verified Users</h3>
+                <p>Trusted listings only</p>
+            </div>
+
+            <div class="feature-card pink">
+                <div class="icon">🚀</div>
+                <h3>Boost System</h3>
+                <p>Get more visibility fast</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="features-right">
+        <img src="{{ url_for('static', filename='agent-female.png') }}" class="agent-image">
+    </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="section">
+    <div class="section-title">How it works</div>
+
+    <div class="steps">
+        <div class="step blue">
+            <div class="icon">👤</div>
+            <h3>Sign Up</h3>
+        </div>
+
+        <div class="step green">
+            <div class="icon">🏠</div>
+            <h3>List Property</h3>
+        </div>
+
+        <div class="step orange">
+            <div class="icon">💬</div>
+            <h3>Connect</h3>
+        </div>
+
+        <div class="step purple">
+            <div class="icon">🤝</div>
+            <h3>Close Deal</h3>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <div class="footer-brand">
+            <img src="{{ url_for('static', filename='logo.png') }}">
+            <p>Modern real estate platform for Nigeria.</p>
+        </div>
+
+        <div class="footer-section">
+            <h3>Platform</h3>
+            <div class="footer-links">
+                <a href="{{ url_for('property.home') }}">Buy</a>
+                <a href="{{ url_for('property.home') }}">Rent</a>
+                <a href="{{ url_for('property.list_step1') }}">List</a>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <h3>Company</h3>
+            <div class="footer-links">
+                <a href="{{ url_for('property.about') }}">About</a>
+                <a href="{{ url_for('property.careers') }}">Careers</a>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <h3>Legal</h3>
+            <div class="footer-links">
+                <a href="{{ url_for('property.home') }}">Home</a>
+                <a href="{{ url_for('property.how_it_works') }}">How it works</a>
+                <a href="{{ url_for('property.careers') }}">Careers</a>
+                <a href="{{ url_for('property.privacy') }}">Privacy</a>
+                <a href="{{ url_for('property.terms') }}">Terms</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        © 2026 Nestora
+    </div>
+
+</footer>
+
+<script>
+function toggleMenu() {
+    document.getElementById("navLinks").classList.toggle("show");
+}
+</script>
+
+</body>
+</html>
