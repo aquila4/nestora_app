@@ -47,6 +47,8 @@ def register():
 
 # ---------------- LOGIN ----------------
 
+from flask_login import login_user
+
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -58,15 +60,18 @@ def login():
 
         if user and check_password_hash(user.password, password):
 
-            # ✅ THIS IS WHAT YOU WERE MISSING
-            session["user_id"] = user.id
-            session["role"] = "admin" if user.is_admin else "user"
+            login_user(user)  # 🔥 THIS is the real login
 
-            return redirect(url_for("property.home"))
+            # ✅ FIX: role-based redirect
+            if user.is_admin:
+                return redirect(url_for("admin.admin_dashboard"))
+            else:
+                return redirect(url_for("property.home"))
 
         return "Invalid email or password"
 
     return render_template("login.html")
+
 
 # ---------------- LOGOUT ----------------
 @auth_bp.route("/logout")
