@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_cors import CORS
 from flask_login import LoginManager
 from flask_migrate import Migrate
@@ -17,10 +17,15 @@ socketio = SocketIO(cors_allowed_origins="*", async_mode="threading")
 
 def create_app():
 
-    app = Flask(__name__)
+    app = Flask(
+        __name__,
+        static_folder="app/static",
+        static_url_path="/static"
+    )
+
     app.config.from_object(Config)
 
-    # 🔥 SESSION FIX (CRITICAL)
+    # 🔥 SESSION FIX
     app.config.update(
         SESSION_COOKIE_HTTPONLY=True,
         SESSION_COOKIE_SAMESITE="Lax",
@@ -39,7 +44,7 @@ def create_app():
     login_manager.login_view = "auth.login"
 
     # =========================
-    # 🔥 FIXED USER LOADER
+    # 🔥 USER LOADER
     # =========================
     @login_manager.user_loader
     def load_user(user_id):
@@ -49,6 +54,17 @@ def create_app():
             return db.session.get(User, int(user_id))
         except Exception:
             return None
+
+    # =========================
+    # 🔥 FAVICON FIX (IMPORTANT)
+    # =========================
+    @app.route("/favicon.ico")
+    def favicon():
+        return send_from_directory(
+            os.path.join(app.root_path, "app/static/favicon_io"),
+            "favicon.ico",
+            mimetype="image/vnd.microsoft.icon"
+        )
 
     # BLUEPRINTS
     from app.routes.auth import auth_bp
