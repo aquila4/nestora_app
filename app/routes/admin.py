@@ -19,9 +19,12 @@ admin_bp = Blueprint("admin", __name__)
 
 # ---------------- DASHBOARD ----------------
 @admin_bp.route("/admin")
-@admin_required
+
 @login_required
 def admin_dashboard():
+    print("DEBUG HIT ADMIN ROUTE")
+    print("USER:", current_user.email)
+    print("IS ADMIN:", current_user.is_admin)
 
     properties = Property.query.order_by(Property.id.desc()).all()
 

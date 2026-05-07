@@ -38,10 +38,17 @@ def create_app():
 
     login_manager.login_view = "auth.login"
 
-    # USER LOADER
+    # =========================
+    # 🔥 FIXED USER LOADER
+    # =========================
     @login_manager.user_loader
     def load_user(user_id):
-        return User.query.get(int(user_id))
+        if not user_id:
+            return None
+        try:
+            return db.session.get(User, int(user_id))
+        except Exception:
+            return None
 
     # BLUEPRINTS
     from app.routes.auth import auth_bp
