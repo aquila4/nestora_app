@@ -17,9 +17,10 @@ socketio = SocketIO(cors_allowed_origins="*", async_mode="threading")
 
 def create_app():
 
+    # ✅ IMPORTANT: correct static path for your structure
     app = Flask(
         __name__,
-        static_folder="static",
+        static_folder="app/static",
         static_url_path="/static"
     )
 
@@ -44,7 +45,7 @@ def create_app():
     login_manager.login_view = "auth.login"
 
     # =========================
-    # 🔥 USER LOADER
+    # USER LOADER
     # =========================
     @login_manager.user_loader
     def load_user(user_id):
@@ -56,7 +57,7 @@ def create_app():
             return None
 
     # =========================
-    # 🔥 FAVICON FIX (IMPORTANT)
+    # FAVICON FIX
     # =========================
     @app.route("/favicon.ico")
     def favicon():
@@ -66,7 +67,9 @@ def create_app():
             mimetype="image/vnd.microsoft.icon"
         )
 
+    # =========================
     # BLUEPRINTS
+    # =========================
     from app.routes.auth import auth_bp
     from app.routes.property import property_bp
     from app.routes.chat import chat_bp
