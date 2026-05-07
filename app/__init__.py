@@ -17,15 +17,13 @@ socketio = SocketIO(cors_allowed_origins="*", async_mode="threading")
 
 def create_app():
 
-    # ✅ IMPORTANT: correct static path for your structure
-    app = Flask(
-        __name__,
-        static_folder="app/static",
-        static_url_path="/static"
-    )
+    app = Flask(__name__)
+
+    # 👇 Correct static configuration
+    app.static_folder = "app/static"
+    app.static_url_path = "/static"
 
     app.config.from_object(Config)
-
     # 🔥 SESSION FIX
     app.config.update(
         SESSION_COOKIE_HTTPONLY=True,
