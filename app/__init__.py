@@ -14,12 +14,20 @@ migrate = Migrate()
 mail = Mail()
 socketio = SocketIO(cors_allowed_origins="*", async_mode="threading")
 
-
 def create_app():
 
     app = Flask(__name__)
 
-    # ✅ STATIC PATH
+    # =========================
+    # SITEMAP ROUTE (FIXED)
+    # =========================
+    @app.route("/sitemap.xml")
+    def sitemap():
+        return "OK"
+
+    # =========================
+    # STATIC
+    # =========================
     app.static_folder = os.path.join(app.root_path, "static")
     app.static_url_path = "/static"
 
@@ -41,9 +49,6 @@ def create_app():
 
     login_manager.login_view = "auth.login"
 
-    # =========================
-    # USER LOADER
-    # =========================
     @login_manager.user_loader
     def load_user(user_id):
         if not user_id:
@@ -53,9 +58,6 @@ def create_app():
         except Exception:
             return None
 
-    # =========================
-    # FAVICON FIX (INSIDE APP CONTEXT)
-    # =========================
     @app.route("/favicon.ico")
     def favicon():
         return send_from_directory(
@@ -64,7 +66,6 @@ def create_app():
             mimetype="image/vnd.microsoft.icon"
         )
 
-    # BLUEPRINTS
     from app.routes.auth import auth_bp
     from app.routes.property import property_bp
     from app.routes.chat import chat_bp
