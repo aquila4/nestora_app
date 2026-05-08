@@ -1,5 +1,5 @@
 import os
-from flask import Flask, app, send_from_directory
+from flask import Flask, send_from_directory
 from flask_cors import CORS
 from flask_login import LoginManager
 from flask_migrate import Migrate
@@ -19,12 +19,12 @@ def create_app():
 
     app = Flask(__name__)
 
-    # ✅ FIXED STATIC PATH
+    # ✅ STATIC PATH
     app.static_folder = os.path.join(app.root_path, "static")
     app.static_url_path = "/static"
 
     app.config.from_object(Config)
-    # 🔥 SESSION FIX
+
     app.config.update(
         SESSION_COOKIE_HTTPONLY=True,
         SESSION_COOKIE_SAMESITE="Lax",
@@ -32,7 +32,6 @@ def create_app():
         SESSION_PERMANENT=True
     )
 
-    # INIT EXTENSIONS
     db.init_app(app)
     migrate.init_app(app, db)
     mail.init_app(app)
@@ -55,18 +54,17 @@ def create_app():
             return None
 
     # =========================
-    # FAVICON FIX
-    # =========================  @app.route("/favicon.ico")
-def favicon():
-    return send_from_directory(
-        os.path.join(app.root_path, "static"),
-        "favicon.ico",
-        mimetype="image/vnd.microsoft.icon"
-    )
+    # FAVICON FIX (INSIDE APP CONTEXT)
+    # =========================
+    @app.route("/favicon.ico")
+    def favicon():
+        return send_from_directory(
+            app.static_folder,
+            "favicon.ico",
+            mimetype="image/vnd.microsoft.icon"
+        )
 
-    # =========================
     # BLUEPRINTS
-    # =========================
     from app.routes.auth import auth_bp
     from app.routes.property import property_bp
     from app.routes.chat import chat_bp
@@ -81,7 +79,6 @@ def favicon():
     app.register_blueprint(payments_bp)
     app.register_blueprint(api_bp, url_prefix="/api")
 
-    # SOCKET
     from app.sockets.chat_socket import init_socket_events
     init_socket_events(socketio, db)
 
