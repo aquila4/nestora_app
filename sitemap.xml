@@ -1,47 +1,35 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+from flask import Response
+from app.models import Property  # adjust if needed
 
-    <!-- HOME -->
-    <url>
-        <loc>https://www.usenestora.com/</loc>
-        <changefreq>daily</changefreq>
-        <priority>1.0</priority>
-    </url>
+@app.route("/sitemap.xml")
+def sitemap():
+    base_url = "https://www.usenestora.com"
 
-    <!-- EXPLORE -->
-    <url>
-        <loc>https://www.usenestora.com/home</loc>
-        <changefreq>daily</changefreq>
-        <priority>0.9</priority>
-    </url>
+    properties = Property.query.all()
 
-    <!-- LIST PROPERTY -->
-    <url>
-        <loc>https://www.usenestora.com/list-property/step1</loc>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
+    urls = [
+        f"{base_url}/",
+        f"{base_url}/home",
+        f"{base_url}/list-property/step1",
+        f"{base_url}/lagos-properties",
+        f"{base_url}/abuja-properties",
+    ]
 
-    <!-- 🏠 DYNAMIC PROPERTY PAGES -->
-    {% for property in properties %}
-    <url>
-        <loc>https://www.usenestora.com/property/{{ property.id }}</loc>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    {% endfor %}
+    for p in properties:
+        urls.append(f"{base_url}/property/{p.id}")
 
-    <!-- 👇 OPTIONAL: CITY SEO PAGES -->
-    <url>
-        <loc>https://www.usenestora.com/lagos-properties</loc>
-        <changefreq>daily</changefreq>
-        <priority>0.9</priority>
-    </url>
+    xml = ['<?xml version="1.0" encoding="UTF-8"?>']
+    xml.append('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
 
-    <url>
-        <loc>https://www.usenestora.com/abuja-properties</loc>
-        <changefreq>daily</changefreq>
-        <priority>0.9</priority>
-    </url>
+    for url in urls:
+        xml.append(f"""
+        <url>
+            <loc>{url}</loc>
+            <changefreq>weekly</changefreq>
+            <priority>0.8</priority>
+        </url>
+        """)
 
-</urlset>
+    xml.append("</urlset>")
+
+    return Response("\n".join(xml), mimetype="application/xml")
