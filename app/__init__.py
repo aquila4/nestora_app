@@ -1,5 +1,5 @@
 import os
-from flask import Flask, send_from_directory
+from flask import Flask, app, send_from_directory
 from flask_cors import CORS
 from flask_login import LoginManager
 from flask_migrate import Migrate
@@ -56,14 +56,13 @@ def create_app():
 
     # =========================
     # FAVICON FIX
-    # =========================
-    @app.route("/favicon.ico")
-    def favicon():
-        return send_from_directory(
-            os.path.join(app.root_path, "app/static/favicon_io"),
-            "favicon.ico",
-            mimetype="image/vnd.microsoft.icon"
-        )
+    # =========================  @app.route("/favicon.ico")
+def favicon():
+    return send_from_directory(
+        os.path.join(app.root_path, "static"),
+        "favicon.ico",
+        mimetype="image/vnd.microsoft.icon"
+    )
 
     # =========================
     # BLUEPRINTS
