@@ -19,8 +19,7 @@ def create_app():
 
     app = Flask(__name__)
 
-    # ✅ correct static config
-    app.static_folder = "static"
+    app.static_folder = "app/static"
     app.static_url_path = "/static"
 
     app.config.from_object(Config)
