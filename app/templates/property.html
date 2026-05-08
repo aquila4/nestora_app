@@ -1,11 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <title>{{ property.title }} | Nestora Luxury Homes</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- 🔥 SEO -->
+<meta name="description" content="{{ property.description }}">
+<meta name="robots" content="index, follow">
+
+<link rel="canonical" href="https://www.usenestora.com/property/{{ property.id }}">
+
+<!-- 🔥 OPEN GRAPH -->
+<meta property="og:title" content="{{ property.title }} | Nestora">
+<meta property="og:description" content="{{ property.description }}">
+<meta property="og:image" content="{% if property.images and property.images|length > 0 %}{{ property.images[0] }}{% else %}https://www.usenestora.com/static/uploads/default.jpg{% endif %}">
+<meta property="og:url" content="https://www.usenestora.com/property/{{ property.id }}">
+<meta property="og:type" content="website">
+
+<!-- 🔥 TWITTER -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ property.title }}">
+<meta name="twitter:description" content="{{ property.description }}">
+<meta name="twitter:image" content="{% if property.images and property.images|length > 0 %}{{ property.images[0] }}{% else %}https://www.usenestora.com/static/uploads/default.jpg{% endif %}">
+
+<!-- 🔥 SCHEMA (VERY IMPORTANT FOR GOOGLE) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ property.title }}",
+  "description": "{{ property.description }}",
+  "image": "{% if property.images and property.images|length > 0 %}{{ property.images[0] }}{% else %}https://www.usenestora.com/static/uploads/default.jpg{% endif %}",
+  "offers": {
+    "@type": "Offer",
+    "price": "{{ property.price }}",
+    "priceCurrency": "NGN",
+    "availability": "https://schema.org/InStock",
+    "url": "https://www.usenestora.com/property/{{ property.id }}"
+  }
+}
+</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap">
 
 <style>

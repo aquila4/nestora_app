@@ -27,28 +27,14 @@ class User(db.Model, UserMixin):
     subscription_plan = db.Column(db.String(20), default="free")  # free / pro
     subscription_expiry = db.Column(db.DateTime, nullable=True)
 
-    # ================= VERIFICATION SYSTEM (CLEAN) =================
-    verification_status = db.Column(
-        db.String(20),
-        default="unverified"
-    )
-    # unverified | pending | verified | rejected
+    # VERIFICATION SYSTEM
+    verification_status = db.Column(db.String(20), default="unverified")
+    verification_doc = db.Column(db.String(255), nullable=True)
+    verification_note = db.Column(db.Text, nullable=True)
+    verified_at = db.Column(db.DateTime, nullable=True)
 
-    verification_doc = db.Column(
-        db.String(255),
-        nullable=True
-    )
 
-    verification_note = db.Column(
-        db.Text,
-        nullable=True
-    )
-
-    verified_at = db.Column(
-        db.DateTime,
-        nullable=True
-    )
-    # ---------------- PROPERTY MODEL ----------------
+# ---------------- PROPERTY MODEL (SEO UPGRADED) ----------------
 class Property(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
@@ -58,6 +44,9 @@ class Property(db.Model):
     description = db.Column(db.Text)
     images = db.Column(db.JSON)
     bedrooms = db.Column(db.Integer)
+
+    # 🔥 SEO SLUG (IMPORTANT)
+    slug = db.Column(db.String(255), unique=True, index=True)
 
     property_type = db.Column(db.String(20))
 
@@ -72,16 +61,17 @@ class Property(db.Model):
     views = db.Column(db.Integer, default=0)
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    
 
+
+# ---------------- PROPERTY HISTORY ----------------
 class PropertyHistory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     property_id = db.Column(
-    db.Integer,
-    db.ForeignKey("property.id", ondelete="CASCADE")
-)
-    
+        db.Integer,
+        db.ForeignKey("property.id", ondelete="CASCADE")
+    )
+
     title = db.Column(db.String(200))
     price = db.Column(db.Float)
     location = db.Column(db.String(200))
@@ -91,6 +81,7 @@ class PropertyHistory(db.Model):
     edited_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 
+# ---------------- PAYMENT LOG ----------------
 class PaymentLog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
@@ -104,13 +95,12 @@ class PaymentLog(db.Model):
     status = db.Column(db.String(20))        # success / failed / pending
 
     property_id = db.Column(db.Integer)
-
     payment_metadata = db.Column(db.JSON)
+
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-from datetime import datetime
-from app.models import db
 
+# ---------------- FAVORITE ----------------
 class Favorite(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
@@ -119,22 +109,24 @@ class Favorite(db.Model):
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    # relationships
-    user = db.relationship("User", backref=db.backref("favorites", lazy=True))
-    property = db.relationship("Property", backref=db.backref("favorites", lazy=True))
+    user = db.relationship("User", backref="favorites")
+    property = db.relationship("Property", backref="favorites")
 
-    # 🔥 IMPORTANT: prevent duplicate likes
     __table_args__ = (
         db.UniqueConstraint("user_id", "property_id", name="unique_user_property_favorite"),
     )
+
+
+# ---------------- USER ACTIVITY ----------------
 class UserActivity(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+
     property_id = db.Column(
-    db.Integer,
-    db.ForeignKey('property.id', ondelete="CASCADE")
-)
+        db.Integer,
+        db.ForeignKey('property.id', ondelete="CASCADE")
+    )
 
     action = db.Column(db.String(50))  # view, click, whatsapp
     city = db.Column(db.String(100))
@@ -144,13 +136,13 @@ class UserActivity(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 
+# ---------------- CHAT ----------------
 class Chat(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     agent_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    # 🔥 ADD THESE RELATIONSHIPS
     user = db.relationship("User", foreign_keys=[user_id])
     agent = db.relationship("User", foreign_keys=[agent_id])
 
@@ -168,11 +160,13 @@ class Chat(db.Model):
         cascade="all, delete-orphan",
         passive_deletes=True
     )
-    # 👇 ADD THIS HERE
+
     __table_args__ = (
         db.UniqueConstraint("user_id", "agent_id", "property_id"),
     )
-    
+
+
+# ---------------- MESSAGE ----------------
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
@@ -190,6 +184,7 @@ class Message(db.Model):
     is_read = db.Column(db.Boolean, default=False)
 
 
+# ---------------- BOOST HISTORY ----------------
 class BoostHistory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
@@ -201,4 +196,3 @@ class BoostHistory(db.Model):
 
     user = db.relationship("User", backref="boost_history")
     property = db.relationship("Property", backref="boost_history")
-

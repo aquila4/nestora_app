@@ -3,9 +3,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- 🔥 TITLE -->
 <title>Nestora | Buy, Rent & List Properties in Nigeria</title>
 
-<!-- 🔥 SEO -->
+<!-- 🔥 BASIC SEO -->
 <meta name="description" content="Nestora is Nigeria’s trusted real estate platform to buy, rent, and list properties. Discover verified homes, apartments, and land in Lagos, Abuja, and across Nigeria.">
 
 <meta name="keywords" content="real estate Nigeria, buy house Lagos, rent apartment Nigeria, land for sale Nigeria, property marketplace Nigeria">
@@ -13,45 +14,90 @@
 <meta name="author" content="Nestora">
 <meta name="robots" content="index, follow">
 
-<!-- 🔥 CANONICAL -->
-<link rel="canonical" href="https://www.nestora.com/">
-<link rel="icon" href="/static/favicon.ico" type="image/x-icon">
-<link rel="shortcut icon" href="/static/favicon.ico">
-<!-- 🔥 FAVICON -->
-<link rel="icon" href="/static/favicon.ico" type="image/x-icon">
-<link rel="shortcut icon" href="/static/favicon.ico">
+<!-- 🔥 CANONICAL (FIXED DOMAIN) -->
+<link rel="canonical" href="https://www.usenestora.com/">
 
-<!-- Apple Touch Icon -->
+<!-- 🔥 FAVICON (CLEANED - NO DUPLICATES) -->
+<link rel="icon" href="/static/favicon.ico" type="image/x-icon">
 <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon_io/apple-touch-icon.png">
-
-<!-- Web Manifest -->
 <link rel="manifest" href="/static/favicon_io/site.webmanifest">
-<!-- 🔥 OPEN GRAPH (WhatsApp / Facebook) -->
+
+<!-- 🔥 OPEN GRAPH -->
 <meta property="og:title" content="Nestora - Real Estate Platform in Nigeria">
-<meta property="og:description" content="Buy, rent, and list properties easily across Nigeria. Verified listings on Nestora.">
-<meta property="og:image" content="https://www.nestora.com/static/home.png">
-<meta property="og:url" content="https://www.nestora.com/">
+<meta property="og:description" content="Buy, rent, and list verified properties across Nigeria.">
+<meta property="og:image" content="https://www.usenestora.com/static/home.png">
+<meta property="og:url" content="https://www.usenestora.com/">
 <meta property="og:type" content="website">
 
 <!-- 🔥 TWITTER -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Nestora - Real Estate Marketplace">
 <meta name="twitter:description" content="Find verified homes and land in Nigeria.">
-<meta name="twitter:image" content="https://www.nestora.com/static/home.png">
+<meta name="twitter:image" content="https://www.usenestora.com/static/home.png">
 
 <!-- 🔥 THEME COLOR -->
 <meta name="theme-color" content="#ff385c">
 
-<!-- 🔥 GOOGLE ANALYTICS (FIXED) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=GA_ID"></script>
+<!-- 🔥 ORGANIZATION SCHEMA -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Nestora",
+  "url": "https://www.usenestora.com",
+  "logo": "https://www.usenestora.com/static/logo.png",
+  "description": "Nigeria's trusted real estate marketplace for buying, renting and listing properties.",
+  "sameAs": []
+}
+</script>
+
+<!-- 🔥 WEBSITE SCHEMA (SITELINK SEARCH BOX) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Nestora",
+  "url": "https://www.usenestora.com",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.usenestora.com/search?q={query}",
+    "query-input": "required name=query"
+  }
+}
+</script>
+
+<!-- 🔥 LANDING PAGE SCHEMA -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Nestora Home",
+  "url": "https://www.usenestora.com/",
+  "description": "Buy, rent and list properties in Nigeria",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Nestora",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.usenestora.com/static/logo.png"
+    }
+  }
+}
+</script>
+
+<!-- 🔥 GOOGLE ANALYTICS -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
-  gtag('config', 'GA_ID');
+  gtag('config', 'G-XXXXXXXXXX');
 </script>
 
+<!-- 🔥 STYLES -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+</head>
 
 
 <style>

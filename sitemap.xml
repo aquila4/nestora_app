@@ -1,32 +1,32 @@
-from flask import Response
-from datetime import datetime
-
 @app.route("/sitemap.xml")
 def sitemap():
+    properties = Property.query.filter_by(approved=True).all()
 
-    base_url = "https://www.usenestora.com"
+    urls = []
 
-    urls = [
-        f"{base_url}/",
-        f"{base_url}/home",
-        f"{base_url}/list-property/step1",
-        f"{base_url}/lagos-properties",
-        f"{base_url}/abuja-properties",
-    ]
+    # STATIC PAGES
+    urls.append("https://www.usenestora.com/")
+    urls.append("https://www.usenestora.com/home")
+    urls.append("https://www.usenestora.com/list-property/step1")
 
-    xml = ['<?xml version="1.0" encoding="UTF-8"?>']
-    xml.append('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
+    # DYNAMIC PROPERTY PAGES (SEO SLUG)
+    for p in properties:
+        if p.slug:
+            urls.append(f"https://www.usenestora.com/property/{p.slug}")
+
+    xml = """<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+"""
 
     for url in urls:
-        xml.append(f"""
-        <url>
-            <loc>{url}</loc>
-            <lastmod>{datetime.utcnow().date()}</lastmod>
-            <changefreq>weekly</changefreq>
-            <priority>0.8</priority>
-        </url>
-        """)
+        xml += f"""
+    <url>
+        <loc>{url}</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+"""
 
-    xml.append("</urlset>")
+    xml += "\n</urlset>"
 
-    return Response("\n".join(xml), mimetype="application/xml")
+    return Response(xml, mimetype="application/xml")
