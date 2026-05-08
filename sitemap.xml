@@ -1,11 +1,10 @@
 from flask import Response
-from app.models import Property  # adjust if needed
+from datetime import datetime
 
 @app.route("/sitemap.xml")
 def sitemap():
-    base_url = "https://www.usenestora.com"
 
-    properties = Property.query.all()
+    base_url = "https://www.usenestora.com"
 
     urls = [
         f"{base_url}/",
@@ -15,9 +14,6 @@ def sitemap():
         f"{base_url}/abuja-properties",
     ]
 
-    for p in properties:
-        urls.append(f"{base_url}/property/{p.id}")
-
     xml = ['<?xml version="1.0" encoding="UTF-8"?>']
     xml.append('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
 
@@ -25,6 +21,7 @@ def sitemap():
         xml.append(f"""
         <url>
             <loc>{url}</loc>
+            <lastmod>{datetime.utcnow().date()}</lastmod>
             <changefreq>weekly</changefreq>
             <priority>0.8</priority>
         </url>
