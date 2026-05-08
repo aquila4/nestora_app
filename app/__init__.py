@@ -19,7 +19,8 @@ def create_app():
 
     app = Flask(__name__)
 
-    app.static_folder = "app/static"
+    # ✅ FIXED STATIC PATH
+    app.static_folder = os.path.join(app.root_path, "static")
     app.static_url_path = "/static"
 
     app.config.from_object(Config)
