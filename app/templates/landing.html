@@ -6,21 +6,24 @@
 <!-- 🔥 TITLE -->
 <title>Nestora | Buy, Rent & List Properties in Nigeria</title>
 
-<!-- 🔥 BASIC SEO -->
+<!-- 🔥 SEO -->
 <meta name="description" content="Nestora is Nigeria’s trusted real estate platform to buy, rent, and list properties. Discover verified homes, apartments, and land in Lagos, Abuja, and across Nigeria.">
-
 <meta name="keywords" content="real estate Nigeria, buy house Lagos, rent apartment Nigeria, land for sale Nigeria, property marketplace Nigeria">
-
 <meta name="author" content="Nestora">
 <meta name="robots" content="index, follow">
 
-<!-- 🔥 CANONICAL (FIXED DOMAIN) -->
+<!-- 🔥 CANONICAL -->
 <link rel="canonical" href="https://www.usenestora.com/">
 
-<!-- 🔥 FAVICON (CLEANED - NO DUPLICATES) -->
+<!-- 🔥 PWA MANIFEST (ONLY ONE - FIXED) -->
+<link rel="manifest" href="/static/favicon_io/site.webmanifest">
+
+<!-- 🔥 THEME COLOR (SPLASH COLOR FIX) -->
+<meta name="theme-color" content="#ff385c">
+
+<!-- 🔥 FAVICONS -->
 <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
 <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon_io/apple-touch-icon.png">
-<link rel="manifest" href="/static/favicon_io/site.webmanifest">
 
 <!-- 🔥 OPEN GRAPH -->
 <meta property="og:title" content="Nestora - Real Estate Platform in Nigeria">
@@ -29,14 +32,16 @@
 <meta property="og:url" content="https://www.usenestora.com/">
 <meta property="og:type" content="website">
 
-<!-- 🔥 TWITTER -->
+<!-- 🔥 TWITTER CARD -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Nestora - Real Estate Marketplace">
 <meta name="twitter:description" content="Find verified homes and land in Nigeria.">
 <meta name="twitter:image" content="https://www.usenestora.com/static/home.png">
 
-<!-- 🔥 THEME COLOR -->
-<meta name="theme-color" content="#ff385c">
+<!-- 🔥 PWA SAFARI SUPPORT -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Nestora">
 
 <!-- 🔥 ORGANIZATION SCHEMA -->
 <script type="application/ld+json">
@@ -51,7 +56,7 @@
 }
 </script>
 
-<!-- 🔥 WEBSITE SCHEMA (SITELINK SEARCH BOX) -->
+<!-- 🔥 WEBSITE SCHEMA -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -66,7 +71,7 @@
 }
 </script>
 
-<!-- 🔥 LANDING PAGE SCHEMA -->
+<!-- 🔥 PAGE SCHEMA -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -94,15 +99,26 @@
   gtag('config', 'G-XXXXXXXXXX');
 </script>
 
-<!-- 🔥 STYLES -->
+<!-- 🔥 SERVICE WORKER (PWA OFFLINE + INSTALL SUPPORT) -->
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/static/service-worker.js")
+    .then(() => console.log("Service Worker Registered"))
+    .catch(err => console.log("SW failed", err));
+}
+</script>
+
+<!-- 🔥 TAILWIND -->
 <script src="https://cdn.tailwindcss.com"></script>
 
-<link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-<meta name="theme-color" content="#0f172a">
-<link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+<!-- 🔥 SPLASH SCREEN FIX (NO WHITE FLASH) -->
+<style>
+body {
+  background: #ff385c;
+}
+</style>
+
 </head>
-
-
 <style>
 
 /* =========================
@@ -1108,6 +1124,31 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/static/sw.js')
     .then(() => console.log('Service Worker Registered'));
 }
+</script>
+
+<button id="installBtn" style="display:none;">
+  Install App
+</button>
+
+<script>
+let deferredPrompt;
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+
+  document.getElementById("installBtn").style.display = "block";
+});
+
+document.getElementById("installBtn").addEventListener("click", async () => {
+  if (!deferredPrompt) return;
+
+  deferredPrompt.prompt();
+  const choice = await deferredPrompt.userChoice;
+
+  console.log(choice.outcome);
+  deferredPrompt = null;
+});
 </script>
 </body>
 </html>
