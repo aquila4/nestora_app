@@ -97,6 +97,9 @@
 <!-- 🔥 STYLES -->
 <script src="https://cdn.tailwindcss.com"></script>
 
+<link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+<meta name="theme-color" content="#0f172a">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
 </head>
 
 
@@ -1100,6 +1103,11 @@ function toggleMenu() {
     document.getElementById("navLinks").classList.toggle("show");
 }
 </script>
-
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/static/sw.js')
+    .then(() => console.log('Service Worker Registered'));
+}
+</script>
 </body>
 </html>
