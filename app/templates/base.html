@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nestora</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Tailwind (if you're using it) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Optional base styling -->
+    <style>
+        body {
+            margin: 0;
+            background: #f9fafb;
+        }
+
+        /* ensure content never hides behind fixed header */
+        .page-content {
+            padding-top: 55px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= FIXED APP HEADER ================= -->
+<div style="
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 55px;
+  background: white;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  z-index: 9999;
+">
+
+  <!-- BACK BUTTON -->
+  <div onclick="goBack()" style="
+      font-size:24px;
+      cursor:pointer;
+      margin-right:12px;
+      color:black;
+      font-weight:bold;
+  ">
+    ←
+  </div>
+
+  <!-- TITLE -->
+  <div style="font-weight:600; font-size:16px; color:black;">
+    Nestora
+  </div>
+
+</div>
+
+<!-- ================= PAGE CONTENT ================= -->
+<div class="page-content">
+    {% block content %}{% endblock %}
+</div>
+
+<!-- ================= BACK SCRIPT ================= -->
+<script>
+function goBack() {
+    if (document.referrer && document.referrer !== "") {
+        history.back();
+    } else {
+        window.location.href = "/";
+    }
+}
+</script>
+
+</body>
+</html>

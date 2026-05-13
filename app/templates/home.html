@@ -237,8 +237,9 @@ body {
 }
 </style>
 </head>
+{% extends "base.html" %}
 
-<body class="bg-gradient-to-b from-white to-gray-100 text-gray-800">
+{% block content %}
 
 <!-- ================= NAVBAR ================= -->
 <header class="bg-white shadow-md sticky top-0 z-50">
@@ -738,5 +739,4 @@ function closeAll() {
 <a href="https://wa.me/2349018907979" class="whatsapp-float" target="_blank">
     💬
 </a>
-</body>
-</html>
+{% endblock %}
