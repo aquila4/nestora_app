@@ -19,7 +19,14 @@ from app.models import db, Property
 
 property_bp = Blueprint("property", __name__)
 
+@property_bp.route("/delete/<int:property_id>", methods=["POST"])
+def delete_property(property_id):
+    property = Property.query.get_or_404(property_id)
 
+    db.session.delete(property)
+    db.session.commit()
+
+    return redirect("/my-properties")
 # ---------------- LANDING ----------------
 @property_bp.route("/")
 def landing():

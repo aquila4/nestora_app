@@ -294,11 +294,14 @@ p{
         Boost
     </a>
 
-    <a class="btn delete"
-       href="/delete/{{ property.id }}"
-       onclick="return confirm('Delete this property?')">
+    <form action="/delete/{{ property.id }}" method="POST"
+      onsubmit="return confirm('Delete this property?')">
+
+    <button type="submit" class="btn delete">
         Delete
-    </a>
+    </button>
+
+</form>
 
 </div>
 
