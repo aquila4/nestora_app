@@ -1,5 +1,5 @@
 import os
-from flask import Flask, send_from_directory, Response
+from flask import Flask, request, send_from_directory, Response
 from flask_cors import CORS
 from flask_login import LoginManager
 from flask_migrate import Migrate
@@ -121,5 +121,20 @@ def create_app():
     # SOCKET
     from app.sockets.chat_socket import init_socket_events
     init_socket_events(socketio, db)
+
+    @app.after_request
+    def add_header(response):
+
+        content_type = response.headers.get("Content-Type", "")
+
+        if "text/html" in content_type:
+            response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+            response.headers["Pragma"] = "no-cache"
+            response.headers["Expires"] = "0"
+
+        elif "/static/" in request.path:
+            response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+
+        return response
 
     return app
